@@ -59,6 +59,7 @@ layui.define(['table', 'form'], function (exports) {
                 , area: ['500px', '450px']
                 , id: 'LAY-popup-user-add'
                 , success: function (layero, index) {
+                    console.log(this.id);
                     view(this.id).render('user/user/userform', data).done(function () {
                         form.render(null, 'layuiadmin-form-useradmin');
 

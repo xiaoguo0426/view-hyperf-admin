@@ -20,16 +20,23 @@ layui.define(['form', 'upload'], function (exports) {
 
     let $body = $('body');
 
+    let profile = document.getElementById('profile');
+    let content = document.getElementById('content');
+
     hyperf.http.get({
         url: '/admin/user/getUser',
         done: function (res) {
             console.log(res);
             let data = res.data;
 
-            data.gender = data.gender + '';
-            form.val('info', data);
-
-            form.render(null, 'info');
+            // data.gender = data.gender + '';
+            console.log(data);
+            laytpl(profile.innerHTML).render(data, function (html) {
+                content.innerHTML = html;
+            });
+            // form.val('info', data);
+            //
+            // form.render(null, 'info');
         }
     });
 
