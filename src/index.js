@@ -9,11 +9,10 @@
 
 layui.extend({
     setter: 'config' //配置文件
-    , hyperf_events: 'lib/hyperf_events'//事件模块
     , admin: 'lib/admin' //核心模块
     , view: 'lib/view' //核心模块
     , hyperf: 'lib/hyperf' //hyperf系统模块
-}).define(['setter', 'admin', 'hyperf', 'hyperf_events'], function (exports) {
+}).define(['setter', 'admin', 'hyperf'], function (exports) {
     var setter = layui.setter
         , element = layui.element
         , admin = layui.admin

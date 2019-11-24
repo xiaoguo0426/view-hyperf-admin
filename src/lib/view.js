@@ -7,14 +7,14 @@
 
  */
 
-layui.define(['laytpl', 'layer'], function (exports) {
+layui.define(['laytpl', 'layer', 'hyperf'], function (exports) {
     var $ = layui.jquery
         , laytpl = layui.laytpl
         , layer = layui.layer
         , setter = layui.setter
         , device = layui.device()
         , hint = layui.hint()
-
+        , hyperf = layui.hyperf
         //对外接口
         , view = function (id) {
             return new Class(id);
@@ -86,6 +86,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
         delete options.success;
         delete options.error;
+        console.trace();
 
         return $.ajax($.extend({
             type: 'get'
@@ -284,7 +285,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
                 ;
 
                 if (url) {
-                    view.req({
+                    hyperf.http.request({
                         type: dataElem.attr('lay-type') || 'get'
                         , url: url
                         , data: data

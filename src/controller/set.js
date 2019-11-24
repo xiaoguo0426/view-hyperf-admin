@@ -15,28 +15,64 @@ layui.define(['form', 'upload'], function (exports) {
         , view = layui.view
         , admin = layui.admin
         , form = layui.form
+        , element = layui.element
         , upload = layui.upload
         , hyperf = layui.hyperf;
 
     let $body = $('body');
 
-    let profile = document.getElementById('profile');
-    let content = document.getElementById('content');
+    let profileTemplate = document.getElementById('profile');
+    let contentObj = document.getElementById('content');
+
+    let rolesTemplate = document.getElementById('rolesList');
+    // console.log(rolesObj);
+    let roles = [
+        {
+            'id': 1,
+            'name': '系统管理员'
+        },
+        {
+            'id': 2,
+            'name': '一般管理员'
+        },
+        {
+            'id': 3,
+            'name': '一般用户'
+        },
+        {
+            'id': 4,
+            'name': '一般角色'
+        }
+    ];
+
 
     hyperf.http.get({
         url: '/admin/user/getUser',
         done: function (res) {
-            console.log(res);
             let data = res.data;
 
-            // data.gender = data.gender + '';
-            console.log(data);
-            laytpl(profile.innerHTML).render(data, function (html) {
-                content.innerHTML = html;
+            laytpl(profileTemplate.innerHTML).render(data, function (html) {
+                contentObj.innerHTML = html;
             });
-            // form.val('info', data);
-            //
-            // form.render(null, 'info');
+
+            let rolesObj = document.getElementById('roles');
+
+            let d = {
+                v: data.role_id,
+                roles: roles
+            };
+            //渲染select
+            laytpl(rolesTemplate.innerHTML).render(d, function (html) {
+                rolesObj.innerHTML = html;
+            });
+
+            element.render();
+            // element.render('select');
+            // element.render('radio');
+
+            form.render();//这句话一定要加，不然radio，select会不出现
+            form.render('select', 'role_id');
+            form.render('radio', 'gender');
         }
     });
 
@@ -71,55 +107,55 @@ layui.define(['form', 'upload'], function (exports) {
     });
 
     //网站设置
-    form.on('submit(set_website)', function (obj) {
-        layer.msg(JSON.stringify(obj.field));
-
-        //提交修改
-        /*
-        admin.req({
-          url: ''
-          ,data: obj.field
-          ,success: function(){
-
-          }
-        });
-        */
-        return false;
-    });
+    // form.on('submit(set_website)', function (obj) {
+    //     console.log(obj);
+    //     layer.msg(JSON.stringify(obj.field));
+    //
+    //     //提交修改
+    //     /*
+    //     admin.req({
+    //       url: ''
+    //       ,data: obj.field
+    //       ,success: function(){
+    //
+    //       }
+    //     });
+    //     */
+    //     return false;
+    // });
 
     //邮件服务
-    form.on('submit(set_system_email)', function (obj) {
-        layer.msg(JSON.stringify(obj.field));
-
-        //提交修改
-        /*
-        admin.req({
-          url: ''
-          ,data: obj.field
-          ,success: function(){
-
-          }
-        });
-        */
-        return false;
-    });
+    // form.on('submit(set_system_email)', function (obj) {
+    //     layer.msg(JSON.stringify(obj.field));
+    //
+    //     //提交修改
+    //     /*
+    //     admin.req({
+    //       url: ''
+    //       ,data: obj.field
+    //       ,success: function(){
+    //
+    //       }
+    //     });
+    //     */
+    //     return false;
+    // });
 
 
     //设置我的资料
-    form.on('submit(setmyinfo)', function (obj) {
-        layer.msg(JSON.stringify(obj.field));
-
-        console.log(obj);
+    form.on('submit(auto)', function (obj) {
         //提交修改
-        /*
-        admin.req({
-          url: ''
-          ,data: obj.field
-          ,success: function(){
-
-          }
+        hyperf.http.auto(obj, {
+            done: function (res) {
+                console.log('done');
+                console.log(res);
+            },
+            success:function (res) {
+                console.log('success');
+                console.log(res);
+            }
         });
-        */
+
         return false;
     });
 
@@ -136,19 +172,6 @@ layui.define(['form', 'upload'], function (exports) {
             }
         }
     });
-
-    //查看头像
-    admin.events.avatarPreview = function (othis) {
-        console.log($(othis).data('img'));
-        let src = avatarSrc.val();
-        if (!src) {
-            // console.log('图片地址为空');
-            return false;
-        }
-
-        hyperf.photo.one(src);
-    };
-
 
     //设置密码
     form.on('submit(setmypass)', function (obj) {

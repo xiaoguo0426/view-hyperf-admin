@@ -79,19 +79,16 @@ layui.define(function (exports) {
                     , request = setter.request
                     , response = setter.response
                 ;
+                // console.trace();
+                // return false;
                 // options.url = setter.domain + options.url;
                 options.data = options.data || {};
                 options.headers = options.headers || {};
 
                 if (request.tokenName) {
-                    var sendData = typeof options.data === 'string'
+                    let sendData = typeof options.data === 'string'
                         ? JSON.parse(options.data)
                         : options.data;
-
-                    //自动给参数传入默认 token
-                    // options.data[request.tokenName] = request.tokenName in sendData
-                    //     ? options.data[request.tokenName]
-                    //     : (layui.data(setter.tableName)[request.tokenName] || '');
 
                     //自动给 Request Headers 传入 token
                     options.headers[request.tokenName] = request.tokenName in options.headers
@@ -126,8 +123,11 @@ layui.define(function (exports) {
                         typeof success === 'function' && success(res);
                     }
                     , error: function (e, code) {
+                        // console.log(e);
+                        // console.log(code);
                         //http异常回调
                         Hyperf.prototype.msg.error('网络请求异常' + code);
+                        setter.debug && console.error("Error: %s (%i) URL:%s", e.statusText, e.status, options.url);
                     }, complete: function (XHR) {
                         index && layer.close(index);
                     }
@@ -138,6 +138,22 @@ layui.define(function (exports) {
             },
             get: function (options) {
                 this.request($.extend(options, {'type': 'GET'}));
+            },
+            /**
+             * 表单自动处理
+             * @param obj
+             * @param options
+             */
+            auto: function (obj, options) {
+                console.log(obj);
+
+                let form = obj.form;
+
+                this.request($.extend({
+                    url: form.attributes['action'].nodeValue,
+                    method: form.attributes['method'].nodeValue || 'GET',
+                    data: JSON.stringify(obj.field)
+                }, options));
             }
         },
         photo: {

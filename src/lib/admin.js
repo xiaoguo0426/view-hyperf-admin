@@ -7,13 +7,13 @@
 
  */
 
-layui.define(['view', 'hyperf_events'], function (exports) {
+layui.define(['view', 'hyperf'], function (exports) {
     var $ = layui.jquery
         , laytpl = layui.laytpl
         , element = layui.element
         , setter = layui.setter
         , view = layui.view
-        , hyperf_events = layui.hyperf_events
+        , hyperf = layui.hyperf
         , device = layui.device()
 
         , $win = $(window), $body = $('body')
@@ -385,6 +385,45 @@ layui.define(['view', 'hyperf_events'], function (exports) {
 
     //事件
     var events = admin.events = {
+        auto: function (othis) {
+            console.log(othis);
+            layer.msg(JSON.stringify(othis.field));
+            //提交修改
+            hyperf.http.auto(othis.form);
+
+        },
+        /**
+         * 图片预览
+         * @param othis
+         */
+        preview: function (othis) {
+            console.log($(othis).data('img'));
+
+            let src = $(othis).data('img');
+            if (!src) {
+                // console.log('图片地址为空');
+                return false;
+            }
+
+            hyperf.photo.one(src);
+        },
+        /**
+         * 相册
+         * @param othis
+         * @returns {boolean}
+         */
+        album: function (othis) {
+            console.log($(othis).data('album'));
+
+            let src = $(othis).data('album');
+            if (!src) {
+                // console.log('图片地址为空');
+                return false;
+            }
+
+            hyperf.photo.album(src);
+        },
+
         //伸缩
         flexible: function (othis) {
             var iconElem = othis.find('#' + APP_FLEXIBLE)
@@ -399,7 +438,7 @@ layui.define(['view', 'hyperf_events'], function (exports) {
         }
 
         //输入框搜索
-        , serach: function (othis) {
+        , search: function (othis) {
             othis.off('keypress').on('keypress', function (e) {
                 if (!this.value.replace(/\s/g, '')) return;
                 //回车跳转
@@ -635,9 +674,6 @@ layui.define(['view', 'hyperf_events'], function (exports) {
         }
     };
 
-    // events = $.extend(events, events);
-    console.log(hyperf_events);
-    console.log($.extend(events, hyperf_events));
     //初始
     !function () {
         //主题初始化，本地主题记录优先，其次为 initColorIndex
@@ -782,13 +818,15 @@ layui.define(['view', 'hyperf_events'], function (exports) {
         if (othis.attr('lay-attr') === 'iframe') {
             return admin.tabsBodyChange(index);
         }
-        ;
-
 
         setThisRouter(othis); //同步路由
         admin.runResize(); //执行resize事件，如果存在的话
         admin.resizeTable(); //重置当前主体区域的表格尺寸
     });
+
+    // $body.on('click',function(e){
+    //     console.log(e.target);
+    // });
 
     //监听 tabspage 删除
     element.on('tabDelete(layadmin-layout-tabs)', function (obj) {
