@@ -47,7 +47,7 @@ layui.define(['form', 'upload'], function (exports) {
 
 
     hyperf.http.get({
-        url: '/admin/user/getUser',
+        url: '/admin/user/getDetail',
         done: function (res) {
             let data = res.data;
 

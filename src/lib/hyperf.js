@@ -145,14 +145,13 @@ layui.define(function (exports) {
              * @param options
              */
             auto: function (obj, options) {
-                console.log(obj);
 
                 let form = obj.form;
 
                 this.request($.extend({
                     url: form.attributes['action'].nodeValue,
-                    method: form.attributes['method'].nodeValue || 'GET',
-                    data: JSON.stringify(obj.field)
+                    method: form.attributes['method'].nodeValue || 'POST',
+                    data: obj.field
                 }, options));
             }
         },
