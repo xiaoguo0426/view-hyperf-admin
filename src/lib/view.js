@@ -7,14 +7,13 @@
 
  */
 
-layui.define(['laytpl', 'layer', 'hyperf'], function (exports) {
+layui.define(['laytpl', 'layer'], function (exports) {
     var $ = layui.jquery
         , laytpl = layui.laytpl
         , layer = layui.layer
         , setter = layui.setter
         , device = layui.device()
         , hint = layui.hint()
-        , hyperf = layui.hyperf
         //对外接口
         , view = function (id) {
             return new Class(id);
@@ -282,10 +281,9 @@ layui.define(['laytpl', 'layer', 'hyperf'], function (exports) {
                     hint.error('lay-headers: ' + e.message);
                     headers = headers || {}
                 }
-                ;
 
                 if (url) {
-                    hyperf.http.request({
+                    view.req({
                         type: dataElem.attr('lay-type') || 'get'
                         , url: url
                         , data: data

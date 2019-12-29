@@ -7,16 +7,16 @@
                     <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
                 </a>
             </li>
-            <!--<li class="layui-nav-item layui-this layui-hide-xs layui-hide-sm layui-show-md-inline-block">
-              <a lay-href="" title="">
-                控制台
-              </a>
-            </li>-->
-            <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                <a href="http://www.layui.com/admin/" target="_blank" title="前台">
-                    <i class="layui-icon layui-icon-website"></i>
-                </a>
-            </li>
+<!--            &lt;!&ndash;<li class="layui-nav-item layui-this layui-hide-xs layui-hide-sm layui-show-md-inline-block">-->
+<!--              <a lay-href="" title="">-->
+<!--                控制台-->
+<!--              </a>-->
+<!--            </li>&ndash;&gt;-->
+<!--            <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+<!--                <a href="http://www.layui.com/admin/" target="_blank" title="前台">-->
+<!--                    <i class="layui-icon layui-icon-website"></i>-->
+<!--                </a>-->
+<!--            </li>-->
             <li class="layui-nav-item" lay-unselect>
                 <a href="javascript:;" layadmin-event="refresh" title="刷新">
                     <i class="layui-icon layui-icon-refresh-3"></i>
@@ -28,35 +28,38 @@
             </li>
         </ul>
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+<!--            消息通知-->
+<!--            <li class="layui-nav-item" lay-unselect>-->
+<!--                <a lay-href="app/message/" layadmin-event="message">-->
+<!--                    <i class="layui-icon layui-icon-notice"></i>-->
 
-            <li class="layui-nav-item" lay-unselect>
-                <a lay-href="app/message/" layadmin-event="message">
-                    <i class="layui-icon layui-icon-notice"></i>
+<!--                    &lt;!&ndash; 如果有新消息，则显示小圆点 &ndash;&gt;-->
+<!--                    <script type="text/html" template lay-url="./json/message/new.js">-->
+<!--                        {{# if(d.data.newmsg){ }}-->
+<!--                        <span class="layui-badge-dot"></span>-->
+<!--                        {{# } }}-->
+<!--                    </script>-->
 
-                    <!-- 如果有新消息，则显示小圆点 -->
-                    <script type="text/html" template lay-url="./json/message/new.js">
-                        {{# if(d.data.newmsg){ }}
-                        <span class="layui-badge-dot"></span>
-                        {{# } }}
-                    </script>
-
-                </a>
-            </li>
-            <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                <a href="javascript:;" layadmin-event="theme">
-                    <i class="layui-icon layui-icon-theme"></i>
-                </a>
-            </li>
-            <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                <a href="javascript:;" layadmin-event="note">
-                    <i class="layui-icon layui-icon-note"></i>
-                </a>
-            </li>
-            <li class="layui-nav-item layui-hide-xs" lay-unselect>
-                <a href="javascript:;" layadmin-event="fullscreen">
-                    <i class="layui-icon layui-icon-screen-full"></i>
-                </a>
-            </li>
+<!--                </a>-->
+<!--            </li>-->
+<!--            配色方案-->
+<!--            <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+<!--                <a href="javascript:;" layadmin-event="theme">-->
+<!--                    <i class="layui-icon layui-icon-theme"></i>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            便签-->
+<!--            <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+<!--                <a href="javascript:;" layadmin-event="note">-->
+<!--                    <i class="layui-icon layui-icon-note"></i>-->
+<!--                </a>-->
+<!--            </li>-->
+<!--            全屏-->
+<!--            <li class="layui-nav-item layui-hide-xs" lay-unselect>-->
+<!--                <a href="javascript:;" layadmin-event="fullscreen">-->
+<!--                    <i class="layui-icon layui-icon-screen-full"></i>-->
+<!--                </a>-->
+<!--            </li>-->
             <li class="layui-nav-item" lay-unselect>
                 <script type="text/html" template lay-url="/admin/user/info"
                         lay-done="layui.element.render('nav', 'layadmin-layout-right');">

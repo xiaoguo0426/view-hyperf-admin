@@ -17,8 +17,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
         , engine: '.html' //视图文件后缀名
         , pageTabs: false //是否开启页面选项卡功能。单页版不推荐开启
 
-        , name: 'layuiAdmin Pro'
-        , tableName: 'layuiAdmin' //本地存储表名
+        , name: 'hyperf-admin'
+        , tableName: 'hyperfAdmin' //本地存储表名
         , MOD_NAME: 'admin' //模块事件名
 
         , debug: true //是否开启调试模式。如开启，接口异常时会抛出异常 URL 等信息
@@ -41,7 +41,7 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
                 ok: 0 //数据状态一切正常的状态码
                 , no: 1 //据状态错误
 
-                , logout: 1001 //登录状态失效的状态码
+                , logout: -1 //登录状态失效的状态码
             }
             , msgName: 'msg' //状态信息的字段名称
             , dataName: 'data' //数据详情的字段名称

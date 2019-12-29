@@ -1,4 +1,4 @@
-layui.define(function (exports) {
+layui.define(['view'], function (exports) {
 
     let $ = layui.jquery,
         view = layui.view,
@@ -10,6 +10,7 @@ layui.define(function (exports) {
         this.container = $('#' + (id || LAY_BODY));
         this.self = this;
     };
+
     Hyperf.prototype = {
         msg: {
             /**
@@ -108,6 +109,7 @@ layui.define(function (exports) {
                         //http请求成功回调
                         let statusCode = response.statusCode;
                         //只有 response 的 code 一切正常才执行 done
+
                         if (res[response.statusName] == statusCode.ok) {
                             typeof options.done === 'function' && options.done(res);
                         }
