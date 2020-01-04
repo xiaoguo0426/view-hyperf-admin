@@ -1,9 +1,10 @@
-layui.define(['view'], function (exports) {
+layui.define(['view', 'table'], function (exports) {
 
     let $ = layui.jquery,
         view = layui.view,
         setter = layui.setter,
-        LAY_BODY = 'LAY_app_body';
+        LAY_BODY = 'LAY_app_body',
+        table = layui.table;
 
     let Hyperf = function (id) {
         this.id = id;
@@ -176,6 +177,38 @@ layui.define(['view'], function (exports) {
                 }, options));
             }
         },
+        table: {
+            checkStatus: function (id) {
+                return table.checkStatus(id);
+            },
+            render: function (options) {
+
+                return table.render(this.t(options))
+            },
+            reload: function (id, options) {
+                return table.reload(id, this.t(options))
+            },
+            t: function (options) {
+                //拼装headers信息
+                let request = setter.request,
+                    headers = {},
+                    parseData = function (res) {
+                        return {}
+                    };
+
+                headers[request.tokenName] = (layui.data(setter.tableName)[request.tokenName] || '');
+
+                // console.log(headers);
+                // console.log($.extend(options, {headers: headers, parseData: parseData}));
+
+                return $.extend(options, {
+                    headers: headers,
+                    text: {
+                        none: '暂无相关数据'
+                    }
+                });
+            }
+        }
     };
 
     exports('hyperf', new Hyperf());

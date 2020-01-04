@@ -14,33 +14,34 @@ layui.define(['table', 'form'], function (exports) {
         , view = layui.view
         , setter = layui.setter
         , table = layui.table
-        , form = layui.form;
+        , form = layui.form
+        , hyperf = layui.hyperf;
 
     let request = setter.request;
 
     let headers = {};
     headers[request.tokenName] = (layui.data(setter.tableName)[request.tokenName] || '');
     //用户管理
-    // table.render({
-    //     elem: '#LAY-user-manage'
-    //     , url: './json/useradmin/webuser.js' //模拟接口
-    //     , cols: [[
-    //         {type: 'checkbox', fixed: 'left'}
-    //         , {field: 'id', width: 100, title: 'ID', sort: true}
-    //         , {field: 'username', title: '用户名', minWidth: 100}
-    //         , {field: 'avatar', title: '头像', width: 100, templet: '#imgTpl'}
-    //         , {field: 'phone', title: '手机'}
-    //         , {field: 'email', title: '邮箱'}
-    //         , {field: 'sex', width: 80, title: '性别'}
-    //         , {field: 'ip', title: 'IP'}
-    //         , {field: 'jointime', title: '加入时间', sort: true}
-    //         , {title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-useradmin-webuser'}
-    //     ]]
-    //     , page: true
-    //     , limit: 30
-    //     , height: 'full-320'
-    //     , text: '对不起，加载出现异常！'
-    // });
+    hyperf.table.render({
+        elem: '#LAY-user-manage'
+        , url: '/admin/user/list' //模拟接口
+        , cols: [[
+            {type: 'checkbox', fixed: 'left'}
+            , {field: 'id', width: 100, title: 'ID', sort: true}
+            , {field: 'username', title: '用户名', minWidth: 100}
+            , {field: 'avatar', title: '头像', width: 100, templet: '#imgTpl'}
+            , {field: 'phone', title: '手机'}
+            , {field: 'email', title: '邮箱'}
+            , {field: 'sex', width: 80, title: '性别'}
+            , {field: 'ip', title: 'IP'}
+            , {field: 'create_date', title: '加入时间', sort: true}
+            , {title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-useradmin-webuser'}
+        ]]
+        , page: true
+        , limit: 30
+        , height: 'full-320'
+        , text: '对不起，加载出现异常！'
+    });
     //
     // //监听工具条
     // table.on('tool(LAY-user-manage)', function (obj) {
@@ -145,20 +146,18 @@ layui.define(['table', 'form'], function (exports) {
     });
 
     // //角色管理
-    // table.render({
-    //     elem: '#LAY-user-back-role'
-    //     , url: './json/useradmin/role.js' //模拟接口
-    //     , cols: [[
-    //         {type: 'checkbox', fixed: 'left'}
-    //         , {field: 'id', width: 80, title: 'ID', sort: true}
-    //         , {field: 'rolename', title: '角色名'}
-    //         , {field: 'limits', title: '拥有权限'}
-    //         , {field: 'descr', title: '具体描述'}
-    //         , {title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-useradmin-admin'}
-    //     ]]
-    //     , text: '对不起，加载出现异常！'
-    // });
-    //
+    hyperf.table.render({
+        elem: '#LAY-user-back-role'
+        , url: '/auth/list' //模拟接口
+        , cols: [[
+            {type: 'checkbox', fixed: 'left'}
+            , {field: 'id', width: 80, title: 'ID', sort: true}
+            , {field: 'title', title: '角色名'}
+            , {field: 'desc', title: '具体描述'}
+            , {title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-useradmin-admin'}
+        ]]
+    });
+
     // //监听工具条
     // table.on('tool(LAY-user-back-role)', function (obj) {
     //     var data = obj.data;

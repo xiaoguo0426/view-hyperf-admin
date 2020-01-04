@@ -85,7 +85,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
         delete options.success;
         delete options.error;
-        console.trace();
+        // console.trace();
 
         return $.ajax($.extend({
             type: 'get'
