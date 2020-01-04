@@ -73,6 +73,9 @@ layui.define(['view', 'table'], function (exports) {
                 shade: [0.1, '#fff'] //0.1透明度的白色背景
             });
         },
+        close: function (index) {
+            return layer.close(index);
+        },
         http: {
             request: function (options) {
                 let that = this
@@ -177,6 +180,9 @@ layui.define(['view', 'table'], function (exports) {
                 }, options));
             }
         },
+        /**
+         * 表格
+         */
         table: {
             checkStatus: function (id) {
                 return table.checkStatus(id);
@@ -208,8 +214,49 @@ layui.define(['view', 'table'], function (exports) {
                     }
                 });
             }
+        },
+        /**
+         * 弹层
+         * @param options
+         * @returns {Class.index}
+         */
+        popup: function (options) {
+            let success = options.success
+                , skin = options.skin;
+
+            delete options.success;
+            delete options.skin;
+
+            return layer.open($.extend({
+                type: 1
+                , title: '提示'
+                , content: ''
+                , id: 'LAY-system-view-popup'
+                , skin: 'layui-layer-admin' + (skin ? ' ' + skin : '')
+                , shadeClose: true
+                , closeBtn: false
+                , success: function (layero, index) {
+                    let elemClose = $('<i class="layui-icon" close>&#x1006;</i>');
+                    layero.append(elemClose);
+                    elemClose.on('click', function () {
+                        // layer.close(index);
+                        Hyperf.prototype.close(index);
+                    });
+                    typeof success === 'function' && success.apply(this, arguments);
+                }
+            }, options))
+        },
+        /**
+         * 加载页面
+         * @param options
+         */
+        page: function (options) {
+
+        },
+        back: function () {
+
         }
     };
-
     exports('hyperf', new Hyperf());
 });
+

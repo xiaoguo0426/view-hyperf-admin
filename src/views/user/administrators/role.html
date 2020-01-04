@@ -32,8 +32,8 @@
         </div>
         <div class="layui-card-body">
             <div style="padding-bottom: 10px;">
-                <button class="layui-btn layuiadmin-btn-role" data-type="batchdel">删除</button>
-                <button class="layui-btn layuiadmin-btn-role" data-type="add">添加</button>
+                <button class="layui-btn layuiadmin-btn-role" lay-event="batch-del">删除</button>
+                <button class="layui-btn layuiadmin-btn-role" lay-event="add">添加</button>
             </div>
 
             <table id="LAY-user-back-role" lay-filter="LAY-user-back-role"></table>
@@ -52,18 +52,20 @@
                 {{#  } }}
             </script>
             <script type="text/html" id="table-useradmin-admin">
+                {{#  if(d.id > 1){ }}
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
                         class="layui-icon layui-icon-edit"></i>编辑</a>
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
-                        class="layui-icon layui-icon-edit"></i>授权</a>
+                <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="auth"><i
+                        class="layui-icon layui-icon-auz"></i>授权</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
                         class="layui-icon layui-icon-delete"></i>删除</a>
+                {{#  } }}
             </script>
         </div>
     </div>
 </div>
 <script>
-  layui.use('role',layui.factory('role'));
+    layui.use('role', layui.factory('role'));
 </script>
 <!--<script>-->
 <!--    layui.use('useradmin', layui.factory('useradmin')).use(['admin', 'useradmin', 'table'], function () {-->
