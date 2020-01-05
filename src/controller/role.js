@@ -1,14 +1,15 @@
-layui.define(['form'], function (exports) {
+layui.define(['form',], function (exports) {
     let $ = layui.$
         , admin = layui.admin
         , view = layui.view
+        , laytpl = layui.laytpl
         // , setter = layui.setter
         // , table = layui.table
+        , element = layui.element
         , form = layui.form
         , hyperf = layui.hyperf;
 
-
-    // //角色管理
+    //角色管理
     let tableIndex = hyperf.table.render({
         elem: '#LAY-user-back-role'
         , url: '/auth/list' //模拟接口
@@ -37,36 +38,61 @@ layui.define(['form'], function (exports) {
             }
 
             hyperf.confirm('确定删除吗？', function (index) {
-
-                //执行 Ajax 后重载
-                /*
-                admin.req({
-                  url: 'xxx'
-                  //,……
-                });
-                */
                 tableIndex.reload('LAY-user-back-role');
                 hyperf.toast('已删除');
             });
         },
-        add: function () {
+        info: function (that) {
+            let id = $(that).attr('lay-id') || '';
+            console.log(id);
             hyperf.popup({
                 title: '添加新角色'
                 , area: ['500px', '480px']
                 , id: 'LAY-popup-user-add'
                 , success: function (layero, index) {
-                    view(this.id).render('user/administrators/roleform').done(function () {
-                        form.render(null, 'layuiadmin-form-role');
+                    view(this.id).render('user/administrators/role-form').done(function () {
+                        hyperf.http.get({
+                            url: '/auth/info',
+                            data: {
+                                id: id
+                            },
+                            done: function (res) {
+                                console.log(res);
+                                if (res.code > 0) {
+                                    hyperf.msg.error(res.msg);
+                                    return false;
+                                }
 
-                        //监听提交
-                        form.on('submit(LAY-user-role-submit)', function (data) {
-                            var field = data.field; //获取提交的字段
+                                let authListTemplate = document.getElementById('auth-list-tpl');
 
-                            //提交 Ajax 成功后，关闭当前弹层并重载表格
-                            //$.ajax({});
-                            layui.table.reload('LAY-user-back-role'); //重载表格
-                            layer.close(index); //执行关闭
+                                let data = res.data;
+
+                                let authListObj = document.getElementById('auth-list');
+
+                                let auths = data.auths;
+                                laytpl(authListTemplate.innerHTML).render({
+                                    auths: auths
+                                }, function (html) {
+                                    authListObj.innerHTML = html;
+                                });
+
+                                element.render();
+
+                                form.val('role-form', data);
+                                form.render(null, 'role-form');
+
+                                //监听提交
+                                form.on('submit(role-form-submit)', function (data) {
+                                    let fields = data.field; //获取提交的字段
+                                    console.log(fields);
+                                    //提交 Ajax 成功后，关闭当前弹层并重载表格
+                                    //$.ajax({});
+                                    // layui.table.reload('LAY-user-back-role'); //重载表格
+                                    // layer.close(index); //执行关闭
+                                });
+                            }
                         });
+
                     });
                 }
             });

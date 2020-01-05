@@ -1,19 +1,7 @@
-/**
-
- @Name：layuiAdmin 设置
- @Author：贤心
- @Site：http://www.layui.com/admin/
- @License: LPPL
-
- */
-
 layui.define(['form', 'upload'], function (exports) {
     let $ = layui.$
         , layer = layui.layer
         , laytpl = layui.laytpl
-        , setter = layui.setter
-        , view = layui.view
-        , admin = layui.admin
         , form = layui.form
         , element = layui.element
         , upload = layui.upload
@@ -47,7 +35,7 @@ layui.define(['form', 'upload'], function (exports) {
 
 
     hyperf.http.get({
-        url: '/admin/user/getDetail',
+        url: '/admin/user/info',
         done: function (res) {
             let data = res.data;
 
