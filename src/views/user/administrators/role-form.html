@@ -10,6 +10,7 @@
         <label class="layui-form-label">权限范围</label>
         <div class="layui-input-block">
             <div id="auth-list"></div>
+
         </div>
     </div>
     <div class="layui-form-item">
@@ -21,26 +22,15 @@
     <div class="layui-form-item">
         <label class="layui-form-label"></label>
         <div class="layui-input-inline">
+            <input type="hidden" name="id" value="{{ d.id }}" lay-verify="require"
+                   autocomplete="off" class="layui-input">
             <input type="button" lay-submit lay-filter="role-form-submit" value="确认" class="layui-btn">
         </div>
     </div>
 </div>
-
-<script type="text/html" id="auth-list-tpl">
-        <input type="checkbox" lay-skin="primary" title="主页管理">
-        <input type="checkbox" lay-skin="primary" title="主页管理">
-        <input type="checkbox" lay-skin="primary" title="主页管理">
-        <input type="checkbox" lay-skin="primary" title="主页管理">
-        <input type="checkbox" lay-skin="primary" title="主页管理">
-
-</script>
-<!--{{# layui.each(d.auths, function(index, item){ }}-->
-<!--{{# }); }}-->
-
-<!--<script>-->
-<!--layui.use(['admin', 'form'], function(){-->
-<!--  var $ = layui.$-->
-<!--  ,form = layui.form;-->
-<!--  -->
-<!--});-->
-<!--</script>-->
+<style>
+    .custom-body {
+        display: block;
+        margin-left: 28px;
+    }
+</style>

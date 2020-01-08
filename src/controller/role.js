@@ -1,4 +1,4 @@
-layui.define(['form',], function (exports) {
+layui.define(['form', 'authtree'], function (exports) {
     let $ = layui.$
         , admin = layui.admin
         , view = layui.view
@@ -7,8 +7,9 @@ layui.define(['form',], function (exports) {
         // , table = layui.table
         , element = layui.element
         , form = layui.form
+        , authtree = layui.authtree
         , hyperf = layui.hyperf;
-
+    console.log(authtree);
     //角色管理
     let tableIndex = hyperf.table.render({
         elem: '#LAY-user-back-role'
@@ -47,7 +48,7 @@ layui.define(['form',], function (exports) {
             console.log(id);
             hyperf.popup({
                 title: '添加新角色'
-                , area: ['500px', '480px']
+                , area: ['600px', '480px']
                 , id: 'LAY-popup-user-add'
                 , success: function (layero, index) {
                     view(this.id).render('user/administrators/role-form').done(function () {
@@ -63,20 +64,17 @@ layui.define(['form',], function (exports) {
                                     return false;
                                 }
 
-                                let authListTemplate = document.getElementById('auth-list-tpl');
-
                                 let data = res.data;
-
-                                let authListObj = document.getElementById('auth-list');
-
                                 let auths = data.auths;
-                                laytpl(authListTemplate.innerHTML).render({
-                                    auths: auths
-                                }, function (html) {
-                                    authListObj.innerHTML = html;
-                                });
 
-                                element.render();
+                                authtree.render('#auth-list', auths, {
+                                    inputname: 'nodes[]',
+                                    layfilter: 'lay-check-auth',
+                                    autowidth: true,
+                                    valueKey: 'node',
+                                    nameKey: 'title',
+                                    childKey: 'sub',
+                                });
 
                                 form.val('role-form', data);
                                 form.render(null, 'role-form');
@@ -85,11 +83,15 @@ layui.define(['form',], function (exports) {
                                 form.on('submit(role-form-submit)', function (data) {
                                     let fields = data.field; //获取提交的字段
                                     console.log(fields);
-                                    //提交 Ajax 成功后，关闭当前弹层并重载表格
-                                    //$.ajax({});
-                                    // layui.table.reload('LAY-user-back-role'); //重载表格
-                                    // layer.close(index); //执行关闭
+                                    hyperf.http.post({
+                                        url: '/auth/edit',
+                                        data: fields,
+                                        done: function (res) {
+                                            console.log(res);
+                                        }
+                                    });
                                 });
+
                             }
                         });
 
