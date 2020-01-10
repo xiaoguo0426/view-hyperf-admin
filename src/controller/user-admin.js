@@ -22,58 +22,74 @@ layui.define(['table', 'form'], function (exports) {
     //管理员管理
     hyperf.table.render({
         elem: '#LAY-user-admin-list'
-        , url: '/admin/user/getList' //模拟接口
+        , url: '/admin/user/list' //模拟接口
         , cols: [[
             {type: 'checkbox', fixed: 'left'}
             , {field: 'id', width: 80, title: 'ID'}
             , {field: 'username', title: '登录名'}
+            , {
+                field: 'role', title: '角色', templet: function (d) {
+                    return d.role.title
+                }
+            }
             , {field: 'nickname', title: '昵称'}
             , {field: 'mobile', title: '手机'}
             , {field: 'email', title: '邮箱'}
-            , {field: 'role', title: '角色'}
             , {field: 'created_at', title: '创建时间'}
             , {field: 'check', title: '状态', templet: '#buttonTpl', minWidth: 80, align: 'center'}
             , {title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-useradmin-admin'}
         ]]
     });
 
-    //监听工具条
-    table.on('tool(LAY-user-back-manage)', function (obj) {
-        var data = obj.data;
-        if (obj.event === 'del') {
-            layer.prompt({
-                formType: 1
-                , title: '敏感操作，请验证口令'
-            }, function (value, index) {
-                layer.close(index);
-                layer.confirm('确定删除此管理员？', function (index) {
-                    console.log(obj)
-                    obj.del();
-                    layer.close(index);
-                });
-            });
-        } else if (obj.event === 'edit') {
-            admin.popup({
-                title: '编辑管理员'
-                , area: ['420px', '450px']
-                , id: 'LAY-popup-user-add'
-                , success: function (layero, index) {
-                    view(this.id).render('user/administrators/adminform', data).done(function () {
-                        form.render(null, 'layuiadmin-form-admin');
+    let events = {
+        info: function (that) {
+            let id = $(that).attr('lay-id') || '';
+            let popup = hyperf.auto.info({
+                data: {
+                    id: id
+                },
+                url: '/admin/user/info',
+                title: id ? '编辑管理员' : '添加管理员',
+                view: 'user/administrators/admin-form',
+                done: function (res) {
 
-                        //监听提交
-                        form.on('submit(LAY-user-back-submit)', function (data) {
-                            var field = data.field; //获取提交的字段
+                    let data = res.data;
 
-                            //提交 Ajax 成功后，关闭当前弹层并重载表格
-                            //$.ajax({});
-                            layui.table.reload('LAY-user-back-manage'); //重载表格
-                            layer.close(index); //执行关闭
-                        });
-                    });
+                    form.val('admin-user-form', data);
+                    form.render(null, 'admin-user-form');
+
+                    // //监听提交
+                    // form.on('submit(role-form-submit)', function (data) {
+                    //     let fields = data.field; //获取提交的字段
+                    //     console.log(fields);
+                    //     hyperf.http.post({
+                    //         url: id ? '/auth/edit' : '/auth/add',
+                    //         data: fields,
+                    //         done: function (res) {
+                    //             if (res.code) {
+                    //                 hyperf.msg.error(res.msg);
+                    //             } else {
+                    //                 hyperf.msg.success(res.msg,function () {
+                    //                     hyperf.close(popup);
+                    //                 });
+                    //                 tableIndex.reload({
+                    //                     page: {
+                    //                         curr: 1 //重新从第 1 页开始
+                    //                     }
+                    //                 });
+                    //             }
+                    //         }
+                    //     });
+                    // });
                 }
             });
         }
+    };
+
+    $('body').on('click', '[lay-event]', function () {
+        let $this = $(this),
+            event = $this.attr('lay-event');
+        events[event] && events[event].call(this, $this);
     });
 
     exports('user-admin', {})

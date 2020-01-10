@@ -79,13 +79,13 @@ layui.define(['form', 'authtree'], function (exports) {
                                 if (res.code) {
                                     hyperf.msg.error(res.msg);
                                 } else {
-                                    hyperf.msg.success(res.msg, function () {
+                                    hyperf.msg.success(res.msg,function () {
                                         hyperf.close(popup);
-                                        tableIndex.reload({
-                                            page: {
-                                                curr: 1 //重新从第 1 页开始
-                                            }
-                                        });
+                                    });
+                                    tableIndex.reload({
+                                        page: {
+                                            curr: 1 //重新从第 1 页开始
+                                        }
                                     });
                                 }
                             }
