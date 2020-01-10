@@ -250,13 +250,126 @@ layui.define(['view', 'table'], function (exports) {
          * 加载页面
          * @param options
          */
-        page: function (options) {
+        page: {
+            load: function (that) {
+                console.log($(that).attr('hyperf-load'));
 
+                location.hash = $(that).attr('hyperf-load');
+            },
+            /**
+             * 刷新右侧区域
+             */
+            refresh: function () {
+                layui.index.render();
+            },
+            back: function () {
+                history.back();
+            },
+            forward: function () {
+                history.forward();
+            }
         },
-        back: function () {
 
+        auto: {
+            info: function (options) {
+                if (!(options.hasOwnProperty('data') && options.hasOwnProperty('url') && options.hasOwnProperty('title') && options.hasOwnProperty('view'))) {
+                    Hyperf.prototype.msg.error('参数缺失！');
+                    return false;
+                }
+                let done = options.done;
+                let d = options.data;
+                return Hyperf.prototype.popup({
+                    title: options.title
+                    , area: ['600px', '480px']
+                    , id: 'LAY-popup-user-add'
+                    , success: function (layero, index) {
+                        let viewIndex = this.id;
+                        view(viewIndex).render(options.view).done(function (r) {
+                            console.log(r);
+                            Hyperf.prototype.http.get({
+                                url: options.url,
+                                data: d,
+                                done: function (res) {
+                                    console.log(res);
+                                    if (res.code > 0) {
+                                        Hyperf.prototype.msg.error(res.msg);
+                                        return false;
+                                    }
+                                    console.log(typeof done);
+                                    typeof done === 'function' && done.apply(this, arguments);
+                                }
+                            });
+                        });
+                    }
+                });
+            },
+            api: function (url, id) {
+                console.log('api');
+                Hyperf.prototype.http.post({
+                    url: url,
+                    data: {
+                        id: id
+                    },
+                    done: function (res) {
+                        if (res.code > 0) {
+                            Hyperf.prototype.msg.error(res.msg);
+                        } else {
+                            Hyperf.prototype.msg.success(res.msg, function () {
+                                Hyperf.prototype.page.refresh();
+                            });
+                        }
+                    }
+                });
+            }
         }
     };
+
+    let events = {
+            del: function (self) {
+                let that = $(self),
+                    url = that.attr('hyperf-url') || '',
+                    id = that.attr('hyperf-del') || '';
+                Hyperf.prototype.confirm('确定删除吗？', function (index) {
+                    id && url && Hyperf.prototype.auto.api(url, id);
+                });
+            },
+            forbid: function (self) {
+                let that = $(self),
+                    url = that.attr('hyperf-url') || '',
+                    id = that.attr('hyperf-forbid') || '';
+
+                id && url && Hyperf.prototype.auto.api(url, id);
+            },
+            resume: function (self) {
+                let that = $(self),
+                    url = that.attr('hyperf-url') || '',
+                    id = that.attr('hyperf-resume') || '';
+                id && url && Hyperf.prototype.auto.api(url, id);
+            }
+        },
+        $body = $('body');
+
+    // $body.on('click',"[^='hyperf-']",function () {
+    //     console.log(11);
+    // });
+    $body.on('click', '[hyperf-del]', function () {
+        events['del'] && events['del'].call(this, this);
+    }).on('click', '[hyperf-forbid]', function () {
+        events['forbid'] && events['forbid'].call(this, this);
+    }).on('click', '[hyperf-resume]', function () {
+        events['resume'] && events['resume'].call(this, this);
+    }).on('click', '[hyperf-load]', function () {
+        // events['load'] && events['load'].call(this, this);
+        Hyperf.prototype.page.load(this);
+        // location.hash = '';
+    }).on('click', '[hyperf-refresh]', function () {
+        Hyperf.prototype.page.refresh();
+    }).on('click', '[hyperf-back]', function () {
+        Hyperf.prototype.page.back();
+    }).on('click', '[hyperf-forward]', function () {
+        Hyperf.prototype.page.forward();
+    });
+
     exports('hyperf', new Hyperf());
 });
 

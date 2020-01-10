@@ -2,7 +2,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">角色</label>
         <div class="layui-input-block">
-            <input type="text" name="title" value="{{ d.title }}" lay-verify="require"
+            <input type="text" name="title" value="{{ d.title }}" lay-verify="required" placeholder="请输入角色"
                    autocomplete="off" class="layui-input">
         </div>
     </div>
@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">具体描述</label>
+        <label class="layui-form-label">角色描述</label>
         <div class="layui-input-block">
             <textarea type="text" name="desc" lay-verify="required" autocomplete="off" class="layui-textarea">{{ d.desc || '' }}</textarea>
         </div>
@@ -28,9 +28,3 @@
         </div>
     </div>
 </div>
-<style>
-    .custom-body {
-        display: block;
-        margin-left: 28px;
-    }
-</style>

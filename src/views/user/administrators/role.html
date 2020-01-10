@@ -27,30 +27,28 @@
             <div style="padding-bottom: 10px;">
                 <button class="layui-btn layuiadmin-btn-role" lay-event="batch-del">删除</button>
                 <button class="layui-btn layuiadmin-btn-role" lay-event="info">添加</button>
+                <button class="layui-btn layuiadmin-btn-role" hyperf-load="/component/button?id=1">加载</button>
+                <button class="layui-btn layuiadmin-btn-role" hyperf-refresh>刷新页面</button>
+                <button class="layui-btn layuiadmin-btn-role" hyperf-back>后退</button>
+                <button class="layui-btn layuiadmin-btn-role" hyperf-forward>前进</button>
             </div>
 
             <table id="LAY-user-back-role" lay-filter="LAY-user-back-role"></table>
-            <script type="text/html" id="checkTpl">
-                {{#  if(d.id == 1){ }}
-                <button class="layui-btn layui-btn-xs">已审核</button>
-                {{#  } else { }}
-                <button class="layui-btn layui-btn-primary layui-btn-xs">未审核</button>
+            <script type="text/html" id="table-role-status">
+                {{#  if(d.id > 1){ }}
+                    {{#  if(d.status == 0){ }}
+                    <button class="layui-btn layui-btn-xs" hyperf-resume="{{ d.id }}" hyperf-url="/auth/resume">启用</button>
+                    {{#  } else { }}
+                    <button class="layui-btn layui-btn-warm layui-btn-xs" hyperf-forbid="{{ d.id }}" hyperf-url="/auth/forbid">禁用</button>
+                    {{#  } }}
                 {{#  } }}
             </script>
-            <script type="text/html" id="buttonTpl">
-                {{#  if(d.check == true){ }}
-                <button class="layui-btn layui-btn-xs">已审核</button>
-                {{#  } else { }}
-                <button class="layui-btn layui-btn-primary layui-btn-xs">未审核</button>
-                {{#  } }}
-            </script>
-            <script type="text/html" id="table-useradmin-admin">
+
+            <script type="text/html" id="table-role-actions">
                 {{#  if(d.id > 1){ }}
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="info" lay-id="{{ d.id }}"><i
                         class="layui-icon layui-icon-edit"></i>编辑</a>
-                <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="auth" lay-id="{{ d.id }}"><i
-                        class="layui-icon layui-icon-auz"></i>授权</a>
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" lay-id="{{ d.id }}"><i
+                <a class="layui-btn layui-btn-danger layui-btn-xs" hyperf-del="{{ d.id }}" hyperf-url="/auth/del"><i
                         class="layui-icon layui-icon-delete"></i>删除</a>
                 {{#  } }}
             </script>
