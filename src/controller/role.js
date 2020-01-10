@@ -12,7 +12,7 @@ layui.define(['form', 'authtree'], function (exports) {
     console.log(authtree);
     //角色管理
     let tableIndex = hyperf.table.render({
-        elem: '#LAY-user-back-role'
+        elem: '#LAY-user-role-list'
         , url: '/auth/list' //模拟接口
         , cols: [[
             {
