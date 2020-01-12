@@ -13,29 +13,9 @@ layui.define(['form', 'upload'], function (exports) {
     let contentObj = document.getElementById('content');
 
     let rolesTemplate = document.getElementById('rolesList');
-    // console.log(rolesObj);
-    let roles = [
-        {
-            'id': 1,
-            'name': '系统管理员'
-        },
-        {
-            'id': 2,
-            'name': '一般管理员'
-        },
-        {
-            'id': 3,
-            'name': '一般用户'
-        },
-        {
-            'id': 4,
-            'name': '一般角色'
-        }
-    ];
-
 
     hyperf.http.get({
-        url: '/admin/user/info',
+        url: '/admin/user/get',
         done: function (res) {
             let data = res.data;
 
@@ -47,7 +27,7 @@ layui.define(['form', 'upload'], function (exports) {
 
             let d = {
                 v: data.role_id,
-                roles: roles
+                roles: data.roles
             };
             //渲染select
             laytpl(rolesTemplate.innerHTML).render(d, function (html) {
@@ -94,53 +74,16 @@ layui.define(['form', 'upload'], function (exports) {
         }
     });
 
-    //网站设置
-    // form.on('submit(set_website)', function (obj) {
-    //     console.log(obj);
-    //     layer.msg(JSON.stringify(obj.field));
-    //
-    //     //提交修改
-    //     /*
-    //     admin.req({
-    //       url: ''
-    //       ,data: obj.field
-    //       ,success: function(){
-    //
-    //       }
-    //     });
-    //     */
-    //     return false;
-    // });
-
-    //邮件服务
-    // form.on('submit(set_system_email)', function (obj) {
-    //     layer.msg(JSON.stringify(obj.field));
-    //
-    //     //提交修改
-    //     /*
-    //     admin.req({
-    //       url: ''
-    //       ,data: obj.field
-    //       ,success: function(){
-    //
-    //       }
-    //     });
-    //     */
-    //     return false;
-    // });
-
-
-    //设置我的资料
+      //设置我的资料
     form.on('submit(auto)', function (obj) {
         //提交修改
         hyperf.http.auto(obj, {
             done: function (res) {
-                console.log('done');
-                console.log(res);
+                console.log('auto done');
             },
             success:function (res) {
-                console.log('success');
-                console.log(res);
+                console.log('auto success');
+                hyperf.msg.success(res.msg);
             }
         });
 
@@ -159,23 +102,6 @@ layui.define(['form', 'upload'], function (exports) {
                 layer.msg(res.msg, {icon: 5});
             }
         }
-    });
-
-    //设置密码
-    form.on('submit(setmypass)', function (obj) {
-        layer.msg(JSON.stringify(obj.field));
-
-        //提交修改
-        /*
-        admin.req({
-          url: ''
-          ,data: obj.field
-          ,success: function(){
-
-          }
-        });
-        */
-        return false;
     });
 
     //对外暴露的接口

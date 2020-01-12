@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<div class="layui-fluid">
+<div class="layui-fluid" id="lay-admin-role">
     <div class="layui-card">
         <div class="layui-form layui-card-header layuiadmin-card-header-auto"
              lay-filter="layadmin-useradminrole-formlist">
@@ -37,9 +37,9 @@
             <script type="text/html" id="table-role-status">
                 {{#  if(d.id > 1){ }}
                     {{#  if(d.status == 0){ }}
-                    <button class="layui-btn layui-btn-xs" hyperf-resume="{{ d.id }}" hyperf-url="/auth/resume">启用</button>
+                        <button class="layui-btn layui-btn-warm layui-btn-xs" hyperf-resume="{{ d.id }}" hyperf-url="/auth/resume">禁用</button>
                     {{#  } else { }}
-                    <button class="layui-btn layui-btn-warm layui-btn-xs" hyperf-forbid="{{ d.id }}" hyperf-url="/auth/forbid">禁用</button>
+                        <button class="layui-btn layui-btn-xs" hyperf-forbid="{{ d.id }}" hyperf-url="/auth/forbid">启用</button>
                     {{#  } }}
                 {{#  } }}
             </script>

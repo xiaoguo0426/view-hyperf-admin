@@ -148,7 +148,7 @@
         {
           "name": "administrators-list",
           "title": "后台管理员",
-          "jump": "user/administrators/list"
+          "jump": "user/administrators/admin"
         },
         {
           "name": "administrators-rule",

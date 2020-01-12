@@ -123,14 +123,12 @@ layui.define(['view', 'table'], function (exports) {
                         }
                         //其它异常
                         else {
-                            Hyperf.prototype.msg.error(res.message);
+                            Hyperf.prototype.msg.error(res.message);//res.code > 0  一般为逻辑性错误
                         }
                         //只要 http 状态码正常，无论 response 的 code 是否正常都执行 success
                         typeof success === 'function' && success(res);
                     }
                     , error: function (e, code) {
-                        // console.log(e);
-                        // console.log(code);
                         //http异常回调
                         Hyperf.prototype.msg.error('网络请求异常' + code);
                         setter.debug && console.error("Error: %s (%i) URL:%s", e.statusText, e.status, options.url);
@@ -204,9 +202,6 @@ layui.define(['view', 'table'], function (exports) {
 
                 headers[request.tokenName] = (layui.data(setter.tableName)[request.tokenName] || '');
 
-                // console.log(headers);
-                // console.log($.extend(options, {headers: headers, parseData: parseData}));
-
                 return $.extend(options, {
                     headers: headers,
                     text: {
@@ -252,8 +247,6 @@ layui.define(['view', 'table'], function (exports) {
          */
         page: {
             load: function (that) {
-                console.log($(that).attr('hyperf-load'));
-
                 location.hash = $(that).attr('hyperf-load');
             },
             /**
@@ -276,35 +269,35 @@ layui.define(['view', 'table'], function (exports) {
                     Hyperf.prototype.msg.error('参数缺失！');
                     return false;
                 }
+
+                delete options.success;
+
                 let done = options.done;
                 let d = options.data;
-                return Hyperf.prototype.popup({
-                    title: options.title
+
+                return Hyperf.prototype.popup($.extend({
+                    title: '弹窗'
                     , area: ['600px', '480px']
                     , id: 'LAY-popup-user-add'
                     , success: function (layero, index) {
                         let viewIndex = this.id;
                         view(viewIndex).render(options.view).done(function (r) {
-                            console.log(r);
                             Hyperf.prototype.http.get({
                                 url: options.url,
                                 data: d,
                                 done: function (res) {
-                                    console.log(res);
                                     if (res.code > 0) {
                                         Hyperf.prototype.msg.error(res.msg);
                                         return false;
                                     }
-                                    console.log(typeof done);
                                     typeof done === 'function' && done.apply(this, arguments);
                                 }
                             });
                         });
                     }
-                });
+                }, options));
             },
             api: function (url, id) {
-                console.log('api');
                 Hyperf.prototype.http.post({
                     url: url,
                     data: {
@@ -349,9 +342,6 @@ layui.define(['view', 'table'], function (exports) {
         },
         $body = $('body');
 
-    // $body.on('click',"[^='hyperf-']",function () {
-    //     console.log(11);
-    // });
     $body.on('click', '[hyperf-del]', function () {
         events['del'] && events['del'].call(this, this);
     }).on('click', '[hyperf-forbid]', function () {

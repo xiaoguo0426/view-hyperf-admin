@@ -9,7 +9,7 @@
 </div>
 <div id="content"></div>
 <script type="text/html" id="profile">
-    <form class="layui-form" lay-filter="info" action="/admin/user/edit" method="post" onsubmit="return false;">
+    <form class="layui-form" lay-filter="info" action="/admin/user/save" method="post" onsubmit="return false;">
         <div class="layui-fluid">
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-md12">
@@ -27,8 +27,7 @@
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">用户名</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" name="username" value="{{ d.username }}" readonly
-                                               class="layui-input">
+                                        <input type="text" name="username" value="{{ d.username }}" class="layui-input" disabled>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
@@ -43,9 +42,9 @@
                                     <label class="layui-form-label">性别</label>
                                     <div class="layui-input-block">
                                         <input type="radio" name="gender" value='1' title="男"
-                                               lay-filter="gender" {{ d.gender=== 1 ? 'checked' : '' }}>
+                                               lay-filter="gender" {{ d.gender === 1 ? 'checked' : '' }}>
                                         <input type="radio" name="gender" value='0' title="女"
-                                               lay-filter="gender" {{ d.gender=== 0 ? 'checked' : '' }}>
+                                               lay-filter="gender" {{ d.gender === 0 ? 'checked' : '' }}>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
@@ -105,7 +104,7 @@
         <option value="">请选择角色</option>
         {{# layui.each(d.roles, function(index, item){ }}
         <option value="{{item.id}}" {{ d.v=== item.id ?
-        ' selected' : '' }}>{{item.name}}</option>
+        ' selected' : '' }}>{{item.title}}</option>
         {{# }); }}
     </select>
 </script>

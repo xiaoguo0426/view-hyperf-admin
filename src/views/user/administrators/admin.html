@@ -8,7 +8,7 @@
     </div>
 </div>
 
-<div class="layui-fluid">
+<div class="layui-fluid" id="lay-admin-user">
     <div class="layui-card">
         <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="layadmin-useradmin-formlist">
             <div class="layui-form-item">
@@ -59,22 +59,20 @@
             </div>
 
             <table id="LAY-user-admin-list" lay-filter="LAY-user-admin-list"></table>
-            <script type="text/html" id="buttonTpl">
+
+            <script type="text/html" id="table-admin-status">
                 {{#  if(d.status == 1){ }}
-                <button class="layui-btn layui-btn-xs">启用</button>
+                <button class="layui-btn layui-btn-xs" hyperf-forbid="{{ d.id }}" hyperf-url="/admin/user/forbid">启用</button>
                 {{#  } else { }}
-                <button class="layui-btn layui-btn-danger layui-btn-xs">禁用</button>
+                <button class="layui-btn layui-btn-warm layui-btn-xs" hyperf-resume="{{ d.id }}" hyperf-url="/admin/user/resume">禁用</button>
                 {{#  } }}
             </script>
-            <script type="text/html" id="table-useradmin-admin">
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
+
+            <script type="text/html" id="table-user-actions">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="info" lay-id="{{ d.id }}"><i
                         class="layui-icon layui-icon-edit"></i>编辑</a>
-                {{#  if(d.role == '超级管理员'){ }}
-                <a class="layui-btn layui-btn-disabled layui-btn-xs"><i class="layui-icon layui-icon-delete"></i>删除</a>
-                {{#  } else { }}
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+                <a class="layui-btn layui-btn-danger layui-btn-xs" hyperf-del="{{ d.id }}" hyperf-url="/auth/del"><i
                         class="layui-icon layui-icon-delete"></i>删除</a>
-                {{#  } }}
             </script>
         </div>
     </div>
