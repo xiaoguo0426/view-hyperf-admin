@@ -32,7 +32,7 @@ layui.extend({}).define(['layer', 'upload'], function (exports) {
     Class.prototype.init = function () {
         let that = this,
             options = that.options;
-        console.log(options);
+
         let layerArea = !that.strIsNull(options.layerArea) ? options.layerArea : 'auto',
             layerTitle = !that.strIsNull(options.layerTitle) ? options.layerTitle : '上传文件到阿里云OSS',
 
@@ -51,7 +51,6 @@ layui.extend({}).define(['layer', 'upload'], function (exports) {
         multiple = !that.strIsNull(options.multiple) ? options.multiple : false;
         maxSize = !that.strIsNull(options.maxSize) ? options.maxSize : 2048;
 
-        console.log(endpoint);
         if (multiple) {
             $(options.elm).on('click', function () {
                 layer.open({

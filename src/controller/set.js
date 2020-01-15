@@ -61,7 +61,7 @@ layui.config({
                         return false;
                     }
                     let oss = res.data;
-                    console.log(oss);
+
                     upload.render({
                         elm: '#LAY_avatarUpload',
                         endpoint: oss.endpoint,

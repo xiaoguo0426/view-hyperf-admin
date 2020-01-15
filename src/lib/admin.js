@@ -824,10 +824,6 @@ layui.define(['view', 'hyperf'], function (exports) {
         admin.resizeTable(); //重置当前主体区域的表格尺寸
     });
 
-    // $body.on('click',function(e){
-    //     console.log(e.target);
-    // });
-
     //监听 tabspage 删除
     element.on('tabDelete(layadmin-layout-tabs)', function (obj) {
         var othis = $(TABS_HEADER + '.layui-this');
