@@ -13,6 +13,7 @@ layui.define(['view', 'hyperf'], function (exports) {
         , element = layui.element
         , setter = layui.setter
         , view = layui.view
+        , hyperf = layui.hyperf
         , device = layui.device()
 
         , $win = $(window), $body = $('body')

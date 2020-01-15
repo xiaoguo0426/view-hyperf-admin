@@ -304,6 +304,8 @@ layui.define(['view', 'table'], function (exports) {
                         id: id
                     },
                     done: function (res) {
+                        console.log(res);
+                        console.log(res.msg);
                         if (res.code > 0) {
                             Hyperf.prototype.msg.error(res.msg);
                         } else {
@@ -338,7 +340,37 @@ layui.define(['view', 'table'], function (exports) {
                     url = that.attr('hyperf-url') || '',
                     id = that.attr('hyperf-resume') || '';
                 id && url && Hyperf.prototype.auto.api(url, id);
-            }
+            },
+            /**
+             * 图片预览
+             * @param othis
+             */
+            preview: function (othis) {
+
+                let src = $(othis).attr('hyperf-preview');
+                if (!src) {
+                    // console.log('图片地址为空');
+                    return false;
+                }
+
+                Hyperf.prototype.photo.one(src);
+            },
+            /**
+             * 相册
+             * @param othis
+             * @returns {boolean}
+             */
+            album: function (othis) {
+                console.log($(othis).attr('hyperf-album'));
+
+                let src = $(othis).attr('hyperf-album');
+                if (!src) {
+                    // console.log('图片地址为空');
+                    return false;
+                }
+
+                Hyperf.prototype.photo.album(src);
+            },
         },
         $body = $('body');
 
@@ -358,6 +390,11 @@ layui.define(['view', 'table'], function (exports) {
         Hyperf.prototype.page.back();
     }).on('click', '[hyperf-forward]', function () {
         Hyperf.prototype.page.forward();
+    }).on('click', '[hyperf-preview]', function () {
+        events['preview'] && events['preview'].call(this, this);
+        return false;
+    }).on('click', '[hyperf-album]', function () {
+        events['album'] && events['album'].call(this, this);
     });
 
     exports('hyperf', new Hyperf());
