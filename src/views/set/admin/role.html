@@ -1,0 +1,60 @@
+<title>角色管理</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>用户</cite></a>
+        <a><cite>角色管理</cite></a>
+    </div>
+</div>
+
+<div class="layui-fluid" id="lay-admin-role">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto"
+             lay-filter="layadmin-useradminrole-formlist">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    角色筛选
+                </div>
+                <div class="layui-inline">
+                    <select name="rolename" lay-filter="LAY-user-adminrole-type">
+                        <option value="-1">全部角色</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-role" lay-event="batch-del">删除</button>
+                <button class="layui-btn layuiadmin-btn-role" lay-event="info">添加</button>
+                <button class="layui-btn layuiadmin-btn-role" hyperf-load="/component/button?id=1">加载</button>
+                <button class="layui-btn layuiadmin-btn-role" hyperf-refresh>刷新页面</button>
+                <button class="layui-btn layuiadmin-btn-role" hyperf-back>后退</button>
+                <button class="layui-btn layuiadmin-btn-role" hyperf-forward>前进</button>
+            </div>
+
+            <table id="LAY-user-role-list" lay-filter="LAY-user-role-list"></table>
+            <script type="text/html" id="table-role-status">
+                {{#  if(d.id > 1){ }}
+                    {{#  if(d.status == 0){ }}
+                        <button class="layui-btn layui-btn-warm layui-btn-xs" hyperf-resume="{{ d.id }}" hyperf-url="/auth/resume">禁用</button>
+                    {{#  } else { }}
+                        <button class="layui-btn layui-btn-xs" hyperf-forbid="{{ d.id }}" hyperf-url="/auth/forbid">启用</button>
+                    {{#  } }}
+                {{#  } }}
+            </script>
+
+            <script type="text/html" id="table-role-actions">
+                {{#  if(d.id > 1){ }}
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="info" lay-id="{{ d.id }}"><i
+                        class="layui-icon layui-icon-edit"></i>编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" hyperf-del="{{ d.id }}" hyperf-url="/auth/del"><i
+                        class="layui-icon layui-icon-delete"></i>删除</a>
+                {{#  } }}
+            </script>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use('role', layui.factory('role'));
+</script>

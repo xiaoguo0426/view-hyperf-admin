@@ -144,16 +144,6 @@
           "name": "user",
           "title": "网站用户",
           "jump": "user/user/list"
-        },
-        {
-          "name": "administrators-list",
-          "title": "后台管理员",
-          "jump": "user/administrators/admin"
-        },
-        {
-          "name": "administrators-rule",
-          "title": "角色管理",
-          "jump": "user/administrators/role"
         }
       ]
     },
@@ -162,6 +152,21 @@
       "title": "设置",
       "icon": "layui-icon-set",
       "list": [
+        {
+          "name": "admin",
+          "title": "管理员",
+          "spread": true,
+          "list": [
+            {
+              "name": "admin",
+              "title": "后台管理员"
+            },
+            {
+              "name": "role",
+              "title": "角色管理"
+            }
+          ]
+        },
         {
           "name": "system",
           "title": "系统设置",
