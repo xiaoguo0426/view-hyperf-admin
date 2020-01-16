@@ -50,7 +50,7 @@
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">头像</label>
                                     <div class="layui-input-inline">
-                                        <input name="avatar" id="LAY_avatarSrc" placeholder="图片地址" value=""
+                                        <input name="avatar" id="LAY_avatarSrc" placeholder="图片地址" value="{{ d.avatar }}"
                                                class="layui-input" readonly>
                                     </div>
                                     <div class="layui-input-inline layui-btn-container" style="width: auto;">
@@ -86,7 +86,7 @@
                                 </div>
                                 <div class="layui-form-item">
                                     <div class="layui-input-block">
-                                        <button class="layui-btn" lay-submit lay-filter="auto">确认修改</button>
+                                        <button class="layui-btn" lay-submit lay-filter="lay-user-info">确认修改</button>
                                         <!--<button type="reset" class="layui-btn layui-btn-primary">重新填写</button>-->
                                     </div>
                                 </div>

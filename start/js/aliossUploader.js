@@ -15,7 +15,7 @@ layui.extend({}).define(['layer', 'upload'], function (exports) {
         multipleFileArray = [],
         multipleFileKeyArray = [],
 
-        endpoint = '',
+        host = '',
         accessId = '',
         signature = '',
         maxSize = 0,
@@ -47,7 +47,7 @@ layui.extend({}).define(['layer', 'upload'], function (exports) {
             uploadRenderData = !that.strIsNull(options.uploadRenderData) ? options.uploadRenderData : {};
 
         allUploaded[options.elm] = options.allUploaded;
-        endpoint = !that.strIsNull(options.endpoint) ? options.endpoint : '';
+        host = !that.strIsNull(options.host) ? options.host : '';
         multiple = !that.strIsNull(options.multiple) ? options.multiple : false;
         maxSize = !that.strIsNull(options.maxSize) ? options.maxSize : 2048;
 
@@ -121,7 +121,7 @@ layui.extend({}).define(['layer', 'upload'], function (exports) {
                             filesListView = $('#test-upload-filesList'),
                             uploadListIns = upload.render($.extend({
                                 elem: '#test-upload-files',
-                                url: endpoint,
+                                url: host,
                                 accept: fileType,
                                 multiple: true,
                                 size: maxSize,
@@ -163,7 +163,7 @@ layui.extend({}).define(['layer', 'upload'], function (exports) {
         } else {
             upload.render($.extend({
                 elem: options.elm,
-                url: endpoint,
+                url: host,
                 accept: fileType,
                 multiple: false,
                 size: maxSize,
@@ -185,7 +185,6 @@ layui.extend({}).define(['layer', 'upload'], function (exports) {
                     }
                     //读取本地文件
                     successCount = 0;
-                    return false;
                     // 签名成功开始上传文件
                     let data = {};
                     data.signature = signature;
@@ -228,7 +227,7 @@ layui.extend({}).define(['layer', 'upload'], function (exports) {
             that = this;
 
         $.ajax({
-            url: endpoint,
+            url: host,
             processData: false,
             cache: false,
             contentType: false,
@@ -238,7 +237,7 @@ layui.extend({}).define(['layer', 'upload'], function (exports) {
                 let result = {
                     name: multipleFileArray[successCount].name,
                     type: multipleFileArray[successCount].type,
-                    ossUrl: endpoint + '/' + multipleFileKeyArray[successCount]
+                    ossUrl: host + '/' + multipleFileKeyArray[successCount]
                 };
                 //成功无返回
                 if (multipleState) {
@@ -260,7 +259,7 @@ layui.extend({}).define(['layer', 'upload'], function (exports) {
                     multipleFileKeyArray = [];
                     layer.closeAll('loading');
 
-                    if (multiple) {
+                    if (multipleState) {
                         allUploaded[that.options.elm](uploadData);
                     } else {
                         allUploaded[that.options.elm](uploadData[0]);

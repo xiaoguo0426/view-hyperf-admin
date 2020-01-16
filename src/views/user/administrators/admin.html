@@ -10,7 +10,7 @@
 
 <div class="layui-fluid" id="lay-admin-user">
     <div class="layui-card">
-        <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="layadmin-useradmin-formlist">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="LAY-user-admin-search-div">
             <div class="layui-form-item">
                 <div class="layui-inline">
                     <label class="layui-form-label">登录名</label>
@@ -33,20 +33,14 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">角色</label>
                     <div class="layui-input-block">
-                        <select name="role_id">
-                            <option value="">请选择角色w</option>
-                            <option value="0">管理员</option>
-                            <option value="1">超级管理员</option>
-                            <option value="2">纠错员</option>
-                            <option value="3">采购员</option>
-                            <option value="4">推销员</option>
-                            <option value="5">运营人员</option>
-                            <option value="6">编辑</option>
-                        </select>
+                        <div id="user-admin-search-roles-div">
+
+                        </div>
+
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-back-search">
+                    <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-admin-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                     </button>
                 </div>
@@ -62,9 +56,12 @@
 
             <script type="text/html" id="table-admin-status">
                 {{#  if(d.status == 1){ }}
-                <button class="layui-btn layui-btn-xs" hyperf-forbid="{{ d.id }}" hyperf-url="/admin/user/forbid">启用</button>
+                <button class="layui-btn layui-btn-xs" hyperf-forbid="{{ d.id }}" hyperf-url="/admin/user/forbid">启用
+                </button>
                 {{#  } else { }}
-                <button class="layui-btn layui-btn-warm layui-btn-xs" hyperf-resume="{{ d.id }}" hyperf-url="/admin/user/resume">禁用</button>
+                <button class="layui-btn layui-btn-warm layui-btn-xs" hyperf-resume="{{ d.id }}"
+                        hyperf-url="/admin/user/resume">禁用
+                </button>
                 {{#  } }}
             </script>
 
@@ -77,6 +74,16 @@
         </div>
     </div>
 </div>
+
+<script type="text/html" id="user-admin-search-roles-tpl">
+    <select name="role">
+        <option value="">请选择角色</option>
+        {{# layui.each(d, function(index, item){ }}
+        <option value="{{ item.id }}">{{ item.title }}</option>
+        {{# }); }}
+    </select>
+</script>
+
 <script>
     layui.use('user-admin', layui.factory('user-admin'));
 </script>

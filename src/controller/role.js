@@ -9,7 +9,6 @@ layui.define(['form', 'authtree'], function (exports) {
         , form = layui.form
         , authtree = layui.authtree
         , hyperf = layui.hyperf;
-    console.log(authtree);
     //角色管理
     let tableIndex = hyperf.table.render({
         elem: '#LAY-user-role-list'
@@ -71,7 +70,7 @@ layui.define(['form', 'authtree'], function (exports) {
                     //监听提交
                     form.on('submit(role-form-submit)', function (data) {
                         let fields = data.field; //获取提交的字段
-                        console.log(fields);
+
                         hyperf.http.post({
                             url: id ? '/auth/edit' : '/auth/add',
                             data: fields,

@@ -6,6 +6,10 @@ layui.define(['view', 'table'], function (exports) {
         LAY_BODY = 'LAY_app_body',
         table = layui.table;
 
+    function empty(str) {
+        return (typeof str === "undefined" || str == null || str === "");
+    }
+
     let Hyperf = function (id) {
         this.id = id;
         this.container = $('#' + (id || LAY_BODY));
@@ -151,6 +155,10 @@ layui.define(['view', 'table'], function (exports) {
             auto: function (obj, options) {
 
                 let form = obj.form;
+                if (empty(form)) {
+                    console.log('请设置form属性');
+                    return false;
+                }
 
                 this.request($.extend({
                     url: form.attributes['action'].nodeValue,
@@ -186,19 +194,15 @@ layui.define(['view', 'table'], function (exports) {
                 return table.checkStatus(id);
             },
             render: function (options) {
-
                 return table.render(this.t(options))
             },
-            reload: function (id, options) {
-                return table.reload(id, this.t(options))
-            },
+            // reload: function (id, options) {
+            //     return table.reload(id, this.t(options))
+            // },
             t: function (options) {
                 //拼装headers信息
                 let request = setter.request,
-                    headers = {},
-                    parseData = function (res) {
-                        return {}
-                    };
+                    headers = {};
 
                 headers[request.tokenName] = (layui.data(setter.tableName)[request.tokenName] || '');
 

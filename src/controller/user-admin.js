@@ -36,6 +36,39 @@ layui.define(['table', 'form'], function (exports) {
         ]]
     });
 
+    //监听搜索
+    form.on('submit(LAY-user-admin-search)', function (data) {
+        var field = data.field;
+        //执行重载
+        tableIndex.reload({
+            where: field,
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    });
+    // form.render('LAY-user-admin-search-div');
+    // form.render('select', 'roles');
+    // form.render();
+
+    let userAdminSearchRolesDiv = document.getElementById('user-admin-search-roles-div'),
+        userAdminSearchRolesTpl = document.getElementById('user-admin-search-roles-tpl');
+
+    hyperf.http.get({
+        url: '/auth/list',
+        data: {
+            page: 1,
+            limit: 99
+        },
+        done: function (res) {
+            laytpl(userAdminSearchRolesTpl.innerHTML).render(res.data, function (html) {
+                userAdminSearchRolesDiv.innerHTML = html;
+            });
+            form.render();
+            // form.render('select', 'roles');
+        }
+    });
+
     let events = {
         info: function (that) {
             let id = $(that).attr('lay-id') || '';
@@ -51,7 +84,7 @@ layui.define(['table', 'form'], function (exports) {
                     let data = res.data,
                         adminFormTpl = document.getElementById('admin-form-tpl'),
 
-                        adminForm = document.getElementById('admin-form')
+                        adminForm = document.getElementById('admin-form');
 
                     laytpl(adminFormTpl.innerHTML).render(data, function (html) {
                         adminForm.innerHTML = html;
@@ -61,7 +94,6 @@ layui.define(['table', 'form'], function (exports) {
 
                         userRolesSelect = document.getElementById('user-roles-select');
 
-                    console.log(data.roles);
                     laytpl(userRolesTpl.innerHTML).render({
                         role_id: data.role_id,
                         roles: data.roles
@@ -75,10 +107,24 @@ layui.define(['table', 'form'], function (exports) {
                     form.render('select', 'role_id');
                     form.render('radio', 'gender');
 
+                    form.verify({
+                        username: function (value, item) { //value：表单的值、item：表单的DOM对象
+                            if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                                return '用户名不能有特殊字符';
+                            }
+                            if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+                                return '用户名首尾不能出现下划线\'_\'';
+                            }
+                            if (/^\d+\d+\d$/.test(value)) {
+                                return '用户名不能全为数字';
+                            }
+                        }
+                    });
+
                     // //监听提交
                     form.on('submit(user-form-submit)', function (data) {
+
                         let fields = data.field; //获取提交的字段
-                        console.log(fields);
                         hyperf.http.post({
                             url: id ? '/admin/user/edit' : '/admin/user/add',
                             data: fields,
