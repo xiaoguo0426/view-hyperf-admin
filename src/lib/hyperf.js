@@ -84,7 +84,7 @@ layui.define(['view', 'table'], function (exports) {
             request: function (options) {
                 let that = this
                     , success = options.success
-                    // , error = options.error
+                    , error = options.error
                     , request = setter.request
                     , response = setter.response
                 ;
@@ -120,6 +120,8 @@ layui.define(['view', 'table'], function (exports) {
 
                         if (res[response.statusName] == statusCode.ok) {
                             typeof options.done === 'function' && options.done(res);
+                        } else if (res[response.statusName] == statusCode.no) {
+                            typeof error === 'function' && error(res);
                         }
                         //登录状态失效，清除本地 access_token，并强制跳转到登入页
                         else if (res[response.statusName] == statusCode.logout) {
