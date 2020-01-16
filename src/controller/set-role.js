@@ -49,7 +49,7 @@ layui.define(['form', 'authtree'], function (exports) {
                 },
                 url: '/auth/info',
                 title: id ? '编辑角色' : '添加角色',
-                view: 'user/administrators/role-form',
+                view: 'set/admin/role-form',
                 done: function (res) {
 
                     let data = res.data;
@@ -125,11 +125,6 @@ layui.define(['form', 'authtree'], function (exports) {
             console.log('resume');
         }
     };
-
-    function del($ids) {
-
-
-    }
 
     $('body').on('click', '[lay-event]', function () {
         let $this = $(this),

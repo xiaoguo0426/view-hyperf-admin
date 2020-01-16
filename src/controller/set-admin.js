@@ -1,13 +1,3 @@
-/**
-
- @Name：layuiAdmin 用户管理 管理员管理 角色管理
- @Author：star1029
- @Site：http://www.layui.com/admin/
- @License：LPPL
-
- */
-
-
 layui.define(['table', 'form'], function (exports) {
     let $ = layui.$
         , form = layui.form
@@ -155,5 +145,5 @@ layui.define(['table', 'form'], function (exports) {
         events[event] && events[event].call(this, $this);
     });
 
-    exports('user-admin', {})
+    exports('set-admin', {})
 });
