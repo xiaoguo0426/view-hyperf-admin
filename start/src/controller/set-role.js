@@ -75,54 +75,19 @@ layui.define(['form', 'authtree'], function (exports) {
                             url: id ? '/auth/edit' : '/auth/add',
                             data: fields,
                             done: function (res) {
-                                if (res.code) {
-                                    hyperf.msg.error(res.msg);
-                                } else {
-                                    hyperf.msg.success(res.msg,function () {
-                                        hyperf.close(popup);
-                                    });
-                                    tableIndex.reload({
-                                        page: {
-                                            curr: 1 //重新从第 1 页开始
-                                        }
-                                    });
-                                }
+                                hyperf.msg.success(res.msg, function () {
+                                    hyperf.close(popup);
+                                });
+                                tableIndex.reload({
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                });
                             }
                         });
                     });
                 }
             });
-        },
-        del: function (that) {
-            let id = $(that).attr('lay-id') || '';
-            hyperf.confirm('确定删除吗？', function (index) {
-                hyperf.http.post({
-                    url: '/auth/del',
-                    data: {
-                        id: id
-                    },
-                    done: function (res) {
-                        if (res.code > 0) {
-                            hyperf.msg.error(res.msg);
-                            return false;
-                        } else {
-                            hyperf.msg.success(res.msg);
-                            tableIndex.reload({
-                                page: {
-                                    curr: 1 //重新从第 1 页开始
-                                }
-                            });
-                        }
-                    }
-                });
-            });
-
-        },
-        forbid: function (that) {
-            console.log('forbid');
-        },
-        resume: function (that) {
-            console.log('resume');
         }
     };
 
@@ -132,5 +97,5 @@ layui.define(['form', 'authtree'], function (exports) {
         events[event] && events[event].call(this, $this);
     });
 
-    exports('role', {})
+    exports('set-role', {})
 });

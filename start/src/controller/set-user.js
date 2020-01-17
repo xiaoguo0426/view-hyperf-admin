@@ -1,5 +1,5 @@
 layui.config({
-    base: '/start/js/' //你存放新模块的目录，注意，不是layui的模块目录
+    base: '/js/' //你存放新模块的目录，注意，不是layui的模块目录
 }).extend({
     aliossUploader: 'aliossUploader'
 }).define(['form', 'upload', 'aliossUploader'], function (exports) {
@@ -55,22 +55,17 @@ layui.config({
             hyperf.http.get({
                 url: '/plugin/upload/getOss',
                 done: function (res) {
-                    console.log(res);
-                    if (res.code > 0) {
-                        hyperf.msg.error(res.msg);
-                        return false;
-                    }
-                    let oss = res.data;
+                    let {accessKeyId, dir, host, maxSize, policy, signature} = res.data;
 
                     upload.render({
                         elm: '#LAY_avatarUpload',
-                        host: oss.host,
+                        host: host,
                         layerTitle: '上传数据文件',
-                        accessId: oss.accessKeyId,
-                        policy: oss.policy,
-                        signature: oss.signature,
-                        prefixPath: oss.dir,
-                        maxSize: oss.maxSize,
+                        accessId: accessKeyId,
+                        policy: policy,
+                        signature: signature,
+                        prefixPath: dir,
+                        maxSize: maxSize,
                         fileType: 'images',
                         multiple: false,
                         allUploaded: function (res) {
@@ -82,6 +77,7 @@ layui.config({
                 }
             });
         }
+
     });
 
     //设置我的资料

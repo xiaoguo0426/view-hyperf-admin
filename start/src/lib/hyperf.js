@@ -144,10 +144,18 @@ layui.define(['view', 'table'], function (exports) {
                 }, options));
             },
             post: function (options) {
-                this.request($.extend(options, {'type': 'POST'}));
+                this.request($.extend({
+                    error: function (res) {
+                        Hyperf.prototype.msg.error(res.msg);
+                    }
+                }, options, {'type': 'POST'}));
             },
             get: function (options) {
-                this.request($.extend(options, {'type': 'GET'}));
+                this.request($.extend({
+                    error: function (res) {
+                        Hyperf.prototype.msg.error(res.msg);
+                    }
+                }, options, {'type': 'GET'}));
             },
             /**
              * 表单自动处理
@@ -168,7 +176,7 @@ layui.define(['view', 'table'], function (exports) {
                 let method = empty(m) ? 'GET' : (empty(m.nodeValue) ? 'POST' : m.nodeValue),
                     action = empty(a) ? '' : (empty(empty(a.nodeValue)) ? '' : a.nodeValue);
 
-                if (empty(action)){
+                if (empty(action)) {
                     console.log('请填写form的action属性');
                     return false;
                 }
@@ -182,7 +190,7 @@ layui.define(['view', 'table'], function (exports) {
                         Hyperf.prototype.msg.success(res.msg);
                     },
                     error: function (res) {
-                        Hyperf.msg.error(res.msg);
+                        Hyperf.prototype.msg.error(res.msg);
                     }
                 }, options)));
             }
