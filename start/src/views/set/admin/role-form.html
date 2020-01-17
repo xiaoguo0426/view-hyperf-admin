@@ -1,0 +1,30 @@
+<div class="layui-form" lay-filter="role-form" style="padding: 20px 30px 0 0;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" value="" lay-verify="required" placeholder="请输入角色"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">权限范围</label>
+        <div class="layui-input-block">
+            <div id="auth-list"></div>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色描述</label>
+        <div class="layui-input-block">
+            <textarea type="text" name="desc" lay-verify="required" autocomplete="off" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label"></label>
+        <div class="layui-input-inline">
+            <input type="hidden" name="id" value="{{ d.id }}" lay-verify="require"
+                   autocomplete="off" class="layui-input">
+            <input type="button" lay-submit lay-filter="role-form-submit" value="确认" class="layui-btn">
+        </div>
+    </div>
+</div>

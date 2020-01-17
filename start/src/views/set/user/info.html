@@ -1,0 +1,113 @@
+<title>设置我的资料</title>
+
+<div class="layui-card layadmin-header">
+    <div class="layui-breadcrumb" lay-filter="breadcrumb">
+        <a lay-href="">主页</a>
+        <a><cite>设置</cite></a>
+        <a><cite>我的资料</cite></a>
+    </div>
+</div>
+<div id="content"></div>
+<script type="text/html" id="profile">
+    <form class="layui-form" lay-filter="info" action="/admin/user/save" method="post" onsubmit="return false;">
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">设置我的资料</div>
+                        <div class="layui-card-body" pad15>
+
+                            <div class="layui-form" lay-filter="info">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">我的角色</label>
+                                    <div class="layui-input-inline">
+                                        <div id="roles"></div>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">用户名</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="username" value="{{ d.username }}" class="layui-input" disabled>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">昵称</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="nickname" value="{{ d.nickname }}"
+                                               lay-verify="required" autocomplete="off" placeholder="请输入昵称"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">性别</label>
+                                    <div class="layui-input-block">
+                                        <input type="radio" name="gender" value='1' title="男"
+                                               lay-filter="gender" {{ d.gender === 1 ? 'checked' : '' }}>
+                                        <input type="radio" name="gender" value='0' title="女"
+                                               lay-filter="gender" {{ d.gender === 0 ? 'checked' : '' }}>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">头像</label>
+                                    <div class="layui-input-inline">
+                                        <input name="avatar" id="LAY_avatarSrc" placeholder="图片地址" value="{{ d.avatar }}"
+                                               class="layui-input" readonly>
+                                    </div>
+                                    <div class="layui-input-inline layui-btn-container" style="width: auto;">
+                                        <button type="button" class="layui-btn layui-btn-primary" id="LAY_avatarUpload">
+                                            <i class="layui-icon">&#xe67c;</i>上传图片
+                                        </button>
+                                        <button type="button" class="layui-btn layui-btn-primary" id="avatarPreview"
+                                                hyperf-preview="{{ d.avatar }}">查看图片
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">手机</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="mobile" value="{{ d.mobile }}" lay-verify="phone"
+                                               autocomplete="off"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">邮箱</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="email" value="{{ d.email }}" lay-verify="email"
+                                               autocomplete="off"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item layui-form-text">
+                                    <label class="layui-form-label">备注</label>
+                                    <div class="layui-input-block">
+                                        <textarea name="remark" placeholder="请输入内容" class="layui-textarea">{{ d.remark }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block">
+                                        <button class="layui-btn" lay-submit lay-filter="lay-user-info">确认修改</button>
+                                        <!--<button type="reset" class="layui-btn layui-btn-primary">重新填写</button>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</script>
+<script type="text/html" id="rolesList">
+    <select name="role_id" lay-verify="required" lay-filter="role_id" disabled>
+        <option value="">请选择角色</option>
+        {{# layui.each(d.roles, function(index, item){ }}
+        <option value="{{item.id}}" {{ d.v=== item.id ?
+        ' selected' : '' }}>{{item.title}}</option>
+        {{# }); }}
+    </select>
+</script>
+<script>
+    layui.use('set-user', layui.factory('set-user'));
+</script>

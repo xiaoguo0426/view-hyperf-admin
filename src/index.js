@@ -18,7 +18,7 @@ layui.extend({
         , admin = layui.admin
         , tabsPage = admin.tabsPage
         , view = layui.view
-
+        , hyperf = layui.hyperf
         //根据路由渲染页面
         , renderPage = function () {
             var router = layui.router()
@@ -210,6 +210,7 @@ layui.extend({
         mods[item] = '{/}' + setter.base + 'lib/extend/' + item;
         layui.extend(mods);
     });
+
 
     //对外输出
     exports('index', {
