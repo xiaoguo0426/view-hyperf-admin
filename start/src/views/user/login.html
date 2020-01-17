@@ -126,17 +126,16 @@
             done: function (res) {
                 layui.config(res.data);
                 let d = res.data;
-                console.log(d);
+
                 document.getElementsByTagName('title')[0].innerText = d.site;
-                console.log($('#site-title'));
-                console.log(setter);
+
                 $('#site-title').text(d.site);
 
-                let meta = document.getElementsByTagName("meta");
-                meta[0]["content"] = "new content";
-                // document.getElementsByTagName('title')[0].innerText = d.site;
-                // document.getElementsByTagName('title')[0].innerText = d.site;
-                // document.getElementsByTagName('title')[0].innerText = d.site;
+                $("meta[name='keywords']").attr('content', d.keywords);
+                $("meta[name='description']").attr('content', d.desc);
+                $("meta[name='author']").attr('content', d.author);
+                $("meta[name='copyright']").attr('content', d.copyright);
+
             }
         });
 
