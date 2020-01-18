@@ -83,7 +83,14 @@ layui.config({
     //设置我的资料
     form.on('submit(lay-user-info)', function (obj) {
         //提交修改
-        hyperf.http.auto(obj);
+        hyperf.http.auto(obj, {
+            success: function (res) {
+                hyperf.msg.success(res.msg, function () {
+                    // location.reload();
+                    hyperf.page.refreshAll();
+                });
+            }
+        });
     });
 
     //上传头像

@@ -111,8 +111,6 @@
                     // }, function () {
                     //     location.hash = search.redirect ? decodeURIComponent(search.redirect) : '/';
                     // });
-                }, error: function (res) {
-                    hyperf.msg.error(res.msg);
                 }
                 // , loading: false
             });
@@ -124,8 +122,12 @@
             url: '/index/index',
             async: false,
             done: function (res) {
-                layui.config(res.data);
                 let d = res.data;
+
+                layui.data(setter.tableName, {
+                    key: 'system',
+                    value: d
+                });
 
                 document.getElementsByTagName('title')[0].innerText = d.site;
 

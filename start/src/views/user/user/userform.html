@@ -52,23 +52,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    layui.use(['admin', 'form', 'upload'], function () {
-        var $ = layui.$
-            , form = layui.form
-            , upload = layui.upload;
-
-        //上传头像
-        upload.render({
-            elem: '#layuiadmin-upload-useradmin'
-            , url: './json/upload/demo.js'
-            , accept: 'images'
-            , method: 'get'
-            , acceptMime: 'image/*'
-            , done: function (res) {
-                $(this.item).prev("div").children("input").val(res.data.src)
-            }
-        });
-    })
-</script>

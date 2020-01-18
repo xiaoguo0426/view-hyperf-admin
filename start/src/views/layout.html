@@ -90,7 +90,7 @@
                     lay-done="layui.element.render('nav', 'layadmin-system-side-menu');" id="TPL_layout">
 
                 <div class="layui-logo" lay-href="">
-                    <span>{{ layui.setter.name || 'layuiAdmin' }}</span>
+                    <span>{{ layui.data(layui.setter.tableName).system.site || '' }}</span>
                 </div>
 
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"

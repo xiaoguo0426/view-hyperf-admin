@@ -373,7 +373,6 @@
         } catch (e) {
             var data = {};
         }
-
         if ('value' in settings) data[settings.key] = settings.value;
         if (settings.remove) delete data[settings.key];
         storage[table] = JSON.stringify(data);

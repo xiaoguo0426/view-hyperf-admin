@@ -278,14 +278,14 @@ layui.define(['view', 'table'], function (exports) {
          * @param options
          */
         page: {
-            load: function (that) {
-                location.hash = $(that).attr('hyperf-load');
+            href: function (href) {
+                location.hash = href;
             },
-            /**
-             * 刷新右侧区域
-             */
             refresh: function () {
                 layui.index.render();
+            },
+            refreshAll: function () {
+                location.reload();
             },
             back: function () {
                 history.back();

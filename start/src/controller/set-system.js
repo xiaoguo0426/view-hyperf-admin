@@ -1,6 +1,7 @@
 layui.define(['table', 'form'], function (exports) {
     let $ = layui.$
         , form = layui.form
+        , setter = layui.setter
         , hyperf = layui.hyperf;
 
     let laySiteInfoForm = 'lay-site-info-form',
@@ -32,10 +33,16 @@ layui.define(['table', 'form'], function (exports) {
         //     }
         // });
         hyperf.http.auto(obj, {
-            done: function (res) {
+            success: function (res) {
                 hyperf.msg.success(res.msg);
 
                 let d = obj.field;
+                // layui.setter.site = 123123;
+                // console.log(layui.setter.site = 123123);
+                layui.data(setter.tableName, {
+                    key: 'system',
+                    value: d
+                });
 
                 document.getElementsByTagName('title')[0].innerText = d.site;
 
@@ -45,6 +52,8 @@ layui.define(['table', 'form'], function (exports) {
                 $("meta[name='description']").attr('content', d.desc);
                 $("meta[name='author']").attr('content', d.author);
                 $("meta[name='copyright']").attr('content', d.copyright);
+
+                hyperf.page.refreshAll();
             }
         });
     });
