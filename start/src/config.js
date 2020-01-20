@@ -16,7 +16,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
         , engine: '.html' //视图文件后缀名
         , pageTabs: false //是否开启页面选项卡功能。单页版不推荐开启
 
-        , domain: 'http://hyperf.test/'
+        , domain: 'http://hyperf.test'
+        , api: 'http://api.hyperf.site'
         , site: ''//站点名称
         , desc: ''//站点描述
         , keywords: ''//关键字

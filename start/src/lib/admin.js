@@ -711,6 +711,7 @@ layui.define(['view', 'hyperf'], function (exports) {
 
     //监听 hash 改变侧边状态
     admin.on('hash(side)', function (router) {
+
         var path = router.path, getData = function (item) {
                 return {
                     list: item.children('.layui-nav-child')
@@ -843,9 +844,11 @@ layui.define(['view', 'hyperf'], function (exports) {
 
         admin.tabsPage.elem = othis;
         //admin.prevRouter[router.path[0]] = router.href; //记录上一次各菜单的路由信息
-
         //执行跳转
         location.hash = admin.correctRouter(href);
+    }).on('dblclick','*[lay-href]',function () {
+        //菜单双击刷新右侧菜单区域
+        layui.index.render();
     });
 
     //点击事件

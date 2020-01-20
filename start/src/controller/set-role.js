@@ -28,14 +28,13 @@ layui.define(['form', 'authtree'], function (exports) {
     //事件
     let events = {
         'batch-del': function () {
-            console.log(12312321);
-            let checkStatus = hyperf.table.checkStatus('LAY-user-back-role')
+            let checkStatus = hyperf.table.checkStatus('LAY-user-role-list')
                 , checkData = checkStatus.data; //得到选中的数据
+            console.log(checkData);
 
             if (checkData.length === 0) {
-                return hyperf.toast('请选择数据');
+                return hyperf.msg.toast('请选择数据');
             }
-            console.log(checkData);
             hyperf.confirm('确定删除吗？', function (index) {
                 //TODO 不是不支持，而是个人认为批量删删除角色的可行性很低，这里只是做一个批量删除的例子
                 hyperf.msg.error('暂不支持批量删除！');
@@ -50,8 +49,7 @@ layui.define(['form', 'authtree'], function (exports) {
                 url: '/auth/info',
                 title: id ? '编辑角色' : '添加角色',
                 view: 'set/admin/role-form',
-                done: function (res) {
-
+                success: function (res) {
                     let data = res.data;
                     let auths = data.auths;
 

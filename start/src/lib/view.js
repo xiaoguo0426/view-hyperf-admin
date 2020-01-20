@@ -172,7 +172,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
         views = setter.views + views + setter.engine;
 
         $('#' + LAY_BODY).children('.layadmin-loading').remove();
-        view.loading(that.container); //loading
+        // view.loading(that.container); //loading
 
         //请求模板
         $.ajax({
@@ -202,7 +202,7 @@ layui.define(['laytpl', 'layer'], function (exports) {
                 }
 
                 that.parse(html);
-                view.removeLoad();
+                // view.removeLoad();
 
                 if (that.done) {
                     that.done(res);
@@ -211,12 +211,11 @@ layui.define(['laytpl', 'layer'], function (exports) {
 
             }
             , error: function (e) {
-                view.removeLoad();
-
+                // view.removeLoad();
+                console.log(e.status);
                 if (that.render.isError) {
                     return view.error('请求视图文件异常，状态：' + e.status);
                 }
-                ;
 
                 if (e.status === 404) {
                     that.render('template/tips/404');
@@ -283,6 +282,11 @@ layui.define(['laytpl', 'layer'], function (exports) {
                 }
 
                 if (url) {
+
+                    if (null === url.match(/\.(jpg|png|jpeg|json|html|htm)[?&]?/g)) {
+                        url = setter.api + url;
+                    }
+
                     view.req({
                         type: dataElem.attr('lay-type') || 'get'
                         , url: url

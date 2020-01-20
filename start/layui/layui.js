@@ -142,7 +142,6 @@
                     if (++timeout > config.timeout * 1000 / 4) {
                         return error(item + ' is not a valid module');
                     }
-                    ;
                     config.status[item] ? onCallback() : setTimeout(poll, 4);
                 }());
             }
@@ -248,7 +247,6 @@
             if (++timeout > config.timeout * 1000 / 100) {
                 return error(href + ' timeout');
             }
-            ;
             parseInt(that.getStyle(doc.getElementById(id), 'width')) === 1989 ? function () {
                 fn();
             }() : setTimeout(poll, 100);

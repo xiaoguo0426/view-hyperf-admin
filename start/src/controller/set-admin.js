@@ -47,9 +47,9 @@ layui.define(['table', 'form'], function (exports) {
     hyperf.http.get({
         url: '/auth/list',
         data: {
-            page: 1,
-            limit: 99
+            limit: 0
         },
+        loading: false,//关闭loading效果
         done: function (res) {
             laytpl(userAdminSearchRolesTpl.innerHTML).render(res.data, function (html) {
                 userAdminSearchRolesDiv.innerHTML = html;
@@ -69,7 +69,7 @@ layui.define(['table', 'form'], function (exports) {
                 area: ['520px', '600px'],
                 url: '/admin/user/info',
                 title: id ? '编辑管理员' : '添加管理员',
-                view: 'set/admin/admin-form',
+                view: 'set/admin/admin-forms',
                 done: function (res) {
                     let data = res.data,
                         adminFormTpl = document.getElementById('admin-form-tpl'),
@@ -118,19 +118,15 @@ layui.define(['table', 'form'], function (exports) {
                         hyperf.http.post({
                             url: id ? '/admin/user/edit' : '/admin/user/add',
                             data: fields,
-                            done: function (res) {
-                                if (res.code) {
-                                    hyperf.msg.error(res.msg);
-                                } else {
-                                    hyperf.msg.success(res.msg, function () {
-                                        hyperf.close(popup);
-                                    });
-                                    tableIndex.reload({
-                                        page: {
-                                            curr: 1 //重新从第 1 页开始
-                                        }
-                                    });
-                                }
+                            success: function (res) {
+                                hyperf.msg.success(res.msg, function () {
+                                    hyperf.close(popup);
+                                });
+                                tableIndex.reload({
+                                    page: {
+                                        curr: 1 //重新从第 1 页开始
+                                    }
+                                });
                             }
                         });
                     });

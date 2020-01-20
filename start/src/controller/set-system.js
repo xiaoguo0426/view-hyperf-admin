@@ -17,7 +17,6 @@ layui.define(['table', 'form'], function (exports) {
     hyperf.http.get({
         url: '/admin/setting/getSMTP',
         done: function (res) {
-            console.log(res.data);
             form.val(laySMTPInfoForm, res.data);
         }
     });

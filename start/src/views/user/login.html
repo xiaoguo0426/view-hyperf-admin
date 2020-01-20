@@ -121,7 +121,7 @@
         hyperf.http.get({
             url: '/index/index',
             async: false,
-            done: function (res) {
+            success: function (res) {
                 let d = res.data;
 
                 layui.data(setter.tableName, {

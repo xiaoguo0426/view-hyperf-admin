@@ -67,21 +67,6 @@
           "jump": "template/goodslist"
         },
         {
-          "name": "reg",
-          "title": "注册",
-          "jump": "user/reg"
-        },
-        {
-          "name": "login",
-          "title": "登入",
-          "jump": "user/login"
-        },
-        {
-          "name": "forget",
-          "title": "忘记密码",
-          "jump": "user/forget"
-        },
-        {
           "name": "404",
           "title": "404",
           "jump": "template/tips/404"
@@ -170,8 +155,18 @@
         {
           "name": "system",
           "title": "系统管理",
-          "spread": false,
-          "jump": "set/system/website"
+          "spread": true,
+          "jump": "set/system/website",
+          "list": [
+            {
+              "name": "website",
+              "title": "系统管理"
+            },
+            {
+              "name": "menu",
+              "title": "菜单管理"
+            }
+          ]
         },
         {
           "name": "user",
