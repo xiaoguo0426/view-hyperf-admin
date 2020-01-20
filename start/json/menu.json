@@ -39,20 +39,6 @@
               "title": "表单组合"
             }
           ]
-        },
-        {
-          "name": "upload",
-          "title": "上传",
-          "list": [
-            {
-              "name": "demo1",
-              "title": "功能演示一"
-            },
-            {
-              "name": "demo2",
-              "title": "功能演示二"
-            }
-          ]
         }
       ]
     },
