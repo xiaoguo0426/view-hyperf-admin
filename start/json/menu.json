@@ -57,28 +57,6 @@
       ]
     },
     {
-      "name": "template",
-      "title": "页面",
-      "icon": "layui-icon-template",
-      "list": [
-        {
-          "name": "goodslist",
-          "title": "商品列表",
-          "jump": "template/goodslist"
-        },
-        {
-          "name": "404",
-          "title": "404",
-          "jump": "template/tips/404"
-        },
-        {
-          "name": "error",
-          "title": "错误提示",
-          "jump": "template/tips/error"
-        }
-      ]
-    },
-    {
       "name": "app",
       "title": "应用",
       "icon": "layui-icon-app",

@@ -70,7 +70,7 @@ layui.define(['table', 'form'], function (exports) {
                 url: '/admin/user/info',
                 title: id ? '编辑管理员' : '添加管理员',
                 view: 'set/admin/admin-forms',
-                done: function (res) {
+                success: function (res) {
                     let data = res.data,
                         adminFormTpl = document.getElementById('admin-form-tpl'),
 

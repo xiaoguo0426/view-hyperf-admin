@@ -212,7 +212,6 @@ layui.define(['laytpl', 'layer'], function (exports) {
             }
             , error: function (e) {
                 // view.removeLoad();
-                console.log(e.status);
                 if (that.render.isError) {
                     return view.error('请求视图文件异常，状态：' + e.status);
                 }
