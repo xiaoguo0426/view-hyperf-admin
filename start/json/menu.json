@@ -64,6 +64,23 @@
       ]
     },
     {
+      "name": "product",
+      "title": "商品管理",
+      "icon": "layui-icon-app",
+      "list": [
+        {
+          "name": "category",
+          "title": "分类管理",
+          "jump": "product/category"
+        },
+        {
+          "name": "product",
+          "title": "商品管理",
+          "jump": "product/product"
+        }
+      ]
+    },
+    {
       "name": "senior",
       "title": "高级",
       "icon": "layui-icon-senior",
