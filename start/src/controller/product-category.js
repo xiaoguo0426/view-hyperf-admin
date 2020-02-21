@@ -1,27 +1,20 @@
-layui.define(['form', 'authtree'], function (exports) {
+layui.define(['form'], function (exports) {
     let $ = layui.$
-        , admin = layui.admin
-        , view = layui.view
-        , laytpl = layui.laytpl
-        // , setter = layui.setter
-        // , table = layui.table
-        , element = layui.element
         , form = layui.form
-        , authtree = layui.authtree
         , hyperf = layui.hyperf;
     //角色管理
     let tableIndex = hyperf.table.render({
-        elem: '#LAY-user-role-list'
-        , url: '/auth/list' //模拟接口
+        elem: '#LAY-product-category-list'
+        , url: '/product/category/list' //模拟接口
         , cols: [[
             {
                 type: 'checkbox', fixed: 'left'
             }
             , {field: 'id', width: 80, title: 'ID'}
-            , {field: 'title', title: '角色名', align: 'center'}
-            , {field: 'desc', title: '角色描述', align: 'center'}
-            , {field: 'status', title: '状态', align: 'center', templet: '#table-role-status'}
-            , {title: '操作', width: 250, align: 'center', fixed: 'right', toolbar: '#table-role-actions'}
+            , {field: 'title', title: '分类名称', align: 'center'}
+            , {field: 'sort', title: '排序', align: 'center'}
+            , {field: 'status', title: '状态', align: 'center', templet: '#table-category-status'}
+            , {title: '操作', width: 250, align: 'center', fixed: 'right', toolbar: '#table-category-actions'}
         ]]
     });
 
@@ -51,16 +44,6 @@ layui.define(['form', 'authtree'], function (exports) {
                 view: 'set/admin/role-form',
                 success: function (res) {
                     let data = res.data;
-                    let auths = data.auths;
-
-                    authtree.render('#auth-list', auths, {
-                        inputname: 'nodes[]',
-                        layfilter: 'lay-check-auth',
-                        autowidth: true,
-                        valueKey: 'node',
-                        nameKey: 'title',
-                        childKey: 'sub',
-                    });
 
                     form.val('role-form', data);
                     form.render(null, 'role-form');

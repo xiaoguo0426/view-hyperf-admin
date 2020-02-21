@@ -9,6 +9,65 @@
   </div>
 </div>
 
+<div class="layui-fluid" id="lay-product-category">
+  <div class="layui-card">
+    <div class="layui-form layui-card-header layuiadmin-card-header-auto" lay-filter="LAY-user-admin-search-div">
+      <div class="layui-form-item">
+        <div class="layui-inline">
+          <label class="layui-form-label">登录名</label>
+          <div class="layui-input-block">
+            <input type="text" name="username" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-inline">
+          <label class="layui-form-label">手机</label>
+          <div class="layui-input-block">
+            <input type="text" name="mobile" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+        <div class="layui-inline">
+          <label class="layui-form-label">邮箱</label>
+          <div class="layui-input-block">
+            <input type="text" name="email" placeholder="请输入" autocomplete="off" class="layui-input">
+          </div>
+        </div>
+
+        <div class="layui-inline">
+          <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-user-admin-search">
+            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="layui-card-body">
+      <div style="padding-bottom: 10px;">
+        <button class="layui-btn layuiadmin-btn-admin" lay-event="info">添加</button>
+      </div>
+
+      <table id="LAY-product-category-list" lay-filter="LAY-product-category-list"></table>
+
+      <script type="text/html" id="table-category-status">
+        {{#  if(d.status == 1){ }}
+        <button class="layui-btn layui-btn-xs" hyperf-forbid="{{ d.id }}" hyperf-url="/admin/user/forbid">启用
+        </button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-warm layui-btn-xs" hyperf-resume="{{ d.id }}"
+                hyperf-url="/admin/user/resume">禁用
+        </button>
+        {{#  } }}
+      </script>
+
+      <script type="text/html" id="table-category-actions">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="info" lay-id="{{ d.id }}"><i
+                class="layui-icon layui-icon-edit"></i>编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" hyperf-del="{{ d.id }}" hyperf-url="/auth/del"><i
+                class="layui-icon layui-icon-delete"></i>删除</a>
+      </script>
+    </div>
+  </div>
+</div>
+
 <script>
   layui.use('product-category', layui.factory('product-category'));
 </script>
