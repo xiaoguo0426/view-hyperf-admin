@@ -60,6 +60,20 @@
               "title": "分类管理"
             }
           ]
+        },
+        {
+          "name": "workflow",
+          "title": "工作流",
+          "list": [
+            {
+              "name": "config",
+              "title": "配置"
+            },
+            {
+              "name": "list",
+              "title": "列表"
+            }
+          ]
         }
       ]
     },
@@ -71,12 +85,12 @@
         {
           "name": "category",
           "title": "分类管理",
-          "jump": "product/category"
+          "jump": "product/category/category"
         },
         {
           "name": "product",
           "title": "商品管理",
-          "jump": "product/product"
+          "jump": "product/product/product"
         }
       ]
     },

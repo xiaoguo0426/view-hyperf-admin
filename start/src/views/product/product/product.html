@@ -1,0 +1,45 @@
+
+<title>商品列表</title>
+
+<div class="layui-card layadmin-header">
+  <div class="layui-breadcrumb" lay-filter="breadcrumb">
+    <a lay-href="">主页</a>
+    <a><cite>商品管理</cite></a>
+    <a><cite>商品管理</cite></a>
+  </div>
+</div>
+
+
+<div class="layui-fluid" id="lay-product-category">
+  <div class="layui-card">
+    <div class="layui-card-body">
+      <div style="padding-bottom: 10px;">
+        <a class="layui-btn layuiadmin-btn-admin" lay-href="product/product/product-form">添加</a>
+      </div>
+
+      <table id="LAY-product-list" lay-filter="LAY-product-list"></table>
+
+      <script type="text/html" id="table-product-status">
+        {{#  if(d.status == 1){ }}
+        <button class="layui-btn layui-btn-xs" hyperf-forbid="{{ d.id }}" hyperf-url="/product/product/forbid">启用
+        </button>
+        {{#  } else { }}
+        <button class="layui-btn layui-btn-warm layui-btn-xs" hyperf-resume="{{ d.id }}"
+                hyperf-url="/product/product/resume">禁用
+        </button>
+        {{#  } }}
+      </script>
+
+      <script type="text/html" id="table-product-actions">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-href="product/product/product" lay-id="{{ d.id }}"><i
+                class="layui-icon layui-icon-edit"></i>编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" hyperf-del="{{ d.id }}" hyperf-url="/product/product/del"><i
+                class="layui-icon layui-icon-delete"></i>删除</a>
+      </script>
+    </div>
+  </div>
+</div>
+
+<script>
+  layui.use('product-product', layui.factory('product-product'));
+</script>

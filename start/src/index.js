@@ -13,11 +13,14 @@ layui.extend({
     , view: 'lib/view' //核心模块
     , hyperf: 'lib/hyperf' //hyperf系统模块
 }).define(['setter', 'admin', 'hyperf'], function (exports) {
+    let $ = layui.$;
+
     let setter = layui.setter
         , element = layui.element
         , admin = layui.admin
         , tabsPage = admin.tabsPage
         , view = layui.view
+        , upload = layui.aliossUploader
         , hyperf = layui.hyperf
 
         //根据路由渲染页面
@@ -69,7 +72,7 @@ layui.extend({
             }
 
             //请求视图渲染
-            view().render(path.join('/')).then(function (res) {
+            hyperf.view().render(path.join('/')).then(function (res) {
 
                 //遍历页签选项卡
                 var matchTo
@@ -137,7 +140,7 @@ layui.extend({
         //入口页面
         , entryPage = function (fn) {
             var router = layui.router()
-                , container = view(setter.container)
+                , container = hyperf.view(setter.container)
                 , pathURL = admin.correctRouter(router.path.join('/'))
                 , isIndPage;
 
@@ -187,7 +190,7 @@ layui.extend({
         }
 
         , APP_BODY = '#LAY_app_body', FILTER_TAB_TBAS = 'layadmin-layout-tabs'
-        , $ = layui.$, $win = $(window);
+        , $win = $(window);
 
     //初始主体结构
     layui.link(

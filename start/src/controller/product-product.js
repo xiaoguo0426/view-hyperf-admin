@@ -3,10 +3,10 @@ layui.define(['form'], function (exports) {
         , form = layui.form
         , laytpl = layui.laytpl
         , hyperf = layui.hyperf;
-
+    //角色管理
     let tableIndex = hyperf.table.render({
-        elem: '#LAY-product-category-list'
-        , url: '/product/category/list' //模拟接口
+        elem: '#LAY-product-list'
+        , url: '/product/product/list' //模拟接口
         ,page: false //开启分页
         , cols: [[
             {
@@ -16,22 +16,22 @@ layui.define(['form'], function (exports) {
                     return d.spl + d.title;
                 }}
             , {field: 'sort', title: '排序', align: 'center'}
-            , {field: 'status', title: '状态', align: 'center', templet: '#table-category-status'}
-            , {title: '操作', width: 250, align: 'center', fixed: 'right', toolbar: '#table-category-actions'}
+            , {field: 'status', title: '状态', align: 'center', templet: '#table-product-status'}
+            , {title: '操作', width: 250, align: 'center', fixed: 'right', toolbar: '#table-product-actions'}
         ]]
     });
 
     //监听搜索
-    // form.on('submit(LAY-product-category-search)', function (data) {
-    //     var field = data.field;
-    //     //执行重载
-    //     tableIndex.reload({
-    //         where: field,
-    //         page: {
-    //             curr: 1 //重新从第 1 页开始
-    //         }
-    //     });
-    // });
+    form.on('submit(LAY-product-search)', function (data) {
+        var field = data.field;
+        //执行重载
+        tableIndex.reload({
+            where: field,
+            page: {
+                curr: 1 //重新从第 1 页开始
+            }
+        });
+    });
 
     //事件
     let events = {
@@ -41,9 +41,9 @@ layui.define(['form'], function (exports) {
                 data: {
                     id: id
                 },
-                url: '/product/category/info',
-                title: id ? '编辑分类' : '添加分类',
-                view: 'product/category/category-form',
+                url: '/product/product/info',
+                title: id ? '编辑商品' : '添加商品',
+                view: 'product/product/product-form',
                 success: function (res) {
                     let data = res.data;
 
@@ -64,11 +64,11 @@ layui.define(['form'], function (exports) {
                     form.render('select', 'parent_id');
 
                     //监听提交
-                    form.on('submit(category-form-submit)', function (data) {
+                    form.on('submit(product-form-submit)', function (data) {
                         let fields = data.field; //获取提交的字段
 
                         hyperf.http.post({
-                            url: id ? '/product/category/edit' : '/product/category/add',
+                            url: id ? '/product/product/edit' : '/product/product/add',
                             data: fields,
                             done: function (res) {
                                 hyperf.msg.success(res.msg, function () {
@@ -93,5 +93,13 @@ layui.define(['form'], function (exports) {
         events[event] && events[event].call(this, $this);
     });
 
-    exports('product-category', {})
+    $('[name="logo"]').uploadOneImage(function () {
+        console.log('uploadOneImage callback');
+    });
+
+    $('[name="image"]').uploadMultipleImage(function () {
+        console.log('uploadOneImage callback');
+    });
+
+    exports('product-product', {})
 });

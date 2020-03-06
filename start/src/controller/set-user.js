@@ -1,8 +1,4 @@
-layui.config({
-    base: '/js/' //你存放新模块的目录，注意，不是layui的模块目录
-}).extend({
-    aliossUploader: 'aliossUploader'
-}).define(['form', 'upload', 'aliossUploader'], function (exports) {
+layui.define(['form', 'upload'], function (exports) {
 
     let $ = layui.$
         , layer = layui.layer
@@ -10,7 +6,7 @@ layui.config({
         , form = layui.form
         , element = layui.element
         // , upload = layui.upload
-        , upload = layui.aliossUploader
+        // , upload = layui.aliossUploader
         , hyperf = layui.hyperf;
 
     let $body = $('body'),
@@ -57,23 +53,23 @@ layui.config({
                 done: function (res) {
                     let {accessKeyId, dir, host, maxSize, policy, signature} = res.data;
 
-                    upload.render({
-                        elm: '#LAY_avatarUpload',
-                        host: host,
-                        layerTitle: '上传数据文件',
-                        accessId: accessKeyId,
-                        policy: policy,
-                        signature: signature,
-                        prefixPath: dir,
-                        maxSize: maxSize,
-                        fileType: 'images',
-                        multiple: false,
-                        allUploaded: function (res) {
-                            console.log(res);
-                            avatarSrc.val(res.ossUrl);
-                            avatarPreview.attr('hyperf-preview', res.ossUrl);
-                        }
-                    });
+                    // upload.render({
+                    //     elm: '#LAY_avatarUpload',
+                    //     host: host,
+                    //     layerTitle: '上传数据文件',
+                    //     accessId: accessKeyId,
+                    //     policy: policy,
+                    //     signature: signature,
+                    //     prefixPath: dir,
+                    //     maxSize: maxSize,
+                    //     fileType: 'images',
+                    //     multiple: false,
+                    //     allUploaded: function (res) {
+                    //         console.log(res);
+                    //         avatarSrc.val(res.ossUrl);
+                    //         avatarPreview.attr('hyperf-preview', res.ossUrl);
+                    //     }
+                    // });
                 }
             });
         }

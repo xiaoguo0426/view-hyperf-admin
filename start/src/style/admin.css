@@ -503,6 +503,15 @@ html{background-color: #f2f2f2; color: #666;}
 .layadmin-tips h1{font-size: 100px; line-height: 100px; color: #009688;}
 .layadmin-tips .layui-text .layui-anim{display: inline-block;}
 
+.uploadimage {
+  width: 5pc;
+  height: 5pc;
+  cursor: pointer;
+  display: inline-block;
+  background: url('/img/add-file.png') no-repeat center center;
+  background-size: cover;
+}
+
 
 /*
 

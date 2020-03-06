@@ -185,7 +185,9 @@ layui.define(['laytpl', 'layer'], function (exports) {
             , success: function (html) {
                 html = '<div>' + html + '</div>';
 
-                var elemTitle = $(html).find('title')
+                let $html = $(html);
+
+                var elemTitle = $html.find('title')
                     , title = elemTitle.text() || (html.match(/\<title\>([\s\S]*)\<\/title>/) || [])[1];
 
                 var res = {
@@ -208,6 +210,15 @@ layui.define(['laytpl', 'layer'], function (exports) {
                     that.done(res);
                     delete that.done;
                 }
+
+                //模板渲染成功后
+                $html.find('[data-file]:not([data-inited])').map(function (index, elem, $this, field) {
+                    $this = $(elem), field = $this.attr('data-field') || 'file';
+                    if (!$this.data('input')) $this.data('input', $('[name="' + field + '"]').get(0));
+                    $this.uploadFile(function (url) {
+                        $($this.data('input')).val(url).trigger('change');
+                    });
+                });
 
             }
             , error: function (e) {
