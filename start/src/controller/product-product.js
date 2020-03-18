@@ -7,14 +7,16 @@ layui.define(['form'], function (exports) {
     let tableIndex = hyperf.table.render({
         elem: '#LAY-product-list'
         , url: '/product/product/list' //模拟接口
-        ,page: false //开启分页
+        , page: false //开启分页
         , cols: [[
             {
                 type: 'checkbox', fixed: 'left'
             }
-            , {field: 'title', title: '分类名称', align: 'left',templet:function (d) {
+            , {
+                field: 'title', title: '分类名称', align: 'left', templet: function (d) {
                     return d.spl + d.title;
-                }}
+                }
+            }
             , {field: 'sort', title: '排序', align: 'center'}
             , {field: 'status', title: '状态', align: 'center', templet: '#table-product-status'}
             , {title: '操作', width: 250, align: 'center', fixed: 'right', toolbar: '#table-product-actions'}
@@ -93,13 +95,8 @@ layui.define(['form'], function (exports) {
         events[event] && events[event].call(this, $this);
     });
 
-    $('[name="logo"]').uploadOneImage(function () {
-        console.log('uploadOneImage callback');
+    $('[name=logo]').uploadOneImage(function () {
+        console.log(23)
     });
-
-    $('[name="image"]').uploadMultipleImage(function () {
-        console.log('uploadOneImage callback');
-    });
-
     exports('product-product', {})
 });

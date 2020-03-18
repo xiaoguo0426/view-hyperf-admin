@@ -47,6 +47,7 @@ layui.define(['table', 'form'], function (exports) {
     hyperf.http.get({
         url: '/auth/list',
         data: {
+            page: 0,
             limit: 0
         },
         loading: false,//关闭loading效果

@@ -362,7 +362,6 @@ layui.config({
                 };
 
                 this.view = function (id) {
-                    console.log('hyperf view');
                     return new Class(id, this);
                 }
             };
@@ -373,8 +372,6 @@ layui.config({
             views = setter.views + views + setter.engine;
 
             $('#' + LAY_BODY).children('.layadmin-loading').remove();
-            // view.loading(that.container); //loading
-            console.log(that.hyperf);
             //请求模板
             $.ajax({
                 url: views
@@ -410,7 +407,6 @@ layui.config({
                         delete that.done;
                     }
 
-                    that.delay(html);
                 }
                 , error: function (e) {
                     // view.removeLoad();
@@ -426,23 +422,6 @@ layui.config({
                 }
             });
             return that;
-        };
-
-        Class.prototype.delay = function (html) {
-            setTimeout(function () {
-                console.log();
-                $('#' + LAY_BODY).find('[data-file]:not([data-inited])').map(function (index, elem, $this, field) {
-
-                    $this = $(elem), field = $this.attr('data-field') || 'file';
-                    if (!$this.data('input')) $this.data('input', $('[name="' + field + '"]').get(0));
-                    console.log($this);
-                    $this.uploadFile(function (res) {
-                        let $input = $($this.data('input'));
-                        $input.val(res.ossUrl).trigger('change');
-                    });
-
-                });
-            }, 1000);
         };
 
         //解析模板
@@ -654,98 +633,43 @@ layui.config({
             events['album'] && events['album'].call(this, this);
         });
 
-        $.fn.extend({
-            uploadFile: function (callback) {
-                if (this.attr('data-inited')) return false;
-                let that = this, mode = $(this).attr('data-file') || 'one';
-                this.attr('data-inited', true).attr('data-multiple', (mode !== 'btn' && mode !== 'one') ? 1 : 0);
 
-                my.http.get({
-                    url: '/plugin/upload/getOss',
-                    done: function (res) {
-                        let {accessKeyId, dir, host, maxSize, policy, signature} = res.data;
+        $.fn.uploadOneImage = function (cb) {
+            var name = $(this).attr('name') || 'image', type = $(this).data('type') || 'png,jpg,gif';
+            var $tpl = $('<a data-file="btn" class="uploadimage"></a>').attr('data-field', name).attr('data-type', type);
+            let that = this;
 
-                        upload.render({
-                            elm: that,
-                            host: host,
-                            layerTitle: '上传数据文件',
-                            accessId: accessKeyId,
-                            policy: policy,
-                            signature: signature,
-                            prefixPath: dir,
-                            maxSize: maxSize,
-                            fileType: 'images',
-                            multiple: false,
-                            allUploaded: function (res) {
-                                console.log(res);
-                                // avatarSrc.val(res.ossUrl);
-                                // avatarPreview.attr('hyperf-preview', res.ossUrl);
-                                callback(res);
-                            }
-                        });
-                    }
-                });
-            },
-            uploadOneImage: function (callback) {
-                let $that = this,
-                    name = $that.attr('name') || 'image', type = $that.data('type') || 'png,jpg,gif',
-                    $tpl = $('<a data-file="btn" class="uploadimage"></a>').attr('data-field', name).attr('data-type', type);
-                console.log($that);
-                $that.attr('name', name).after($tpl.data('input', this)).on('change', function () {
-                    console.log('uploadOneImage change');
-                    if (this.value) $tpl.css('backgroundImage', 'url(' + this.value + ')');
-                }).trigger('change');
+            let self =
+            $(this).attr('name', name).after($tpl.data('input', this)).on('change', function () {
+                if (this.value) $tpl.css('backgroundImage', 'url(' + this.value + ')');
+            }).trigger('change');
 
-            },
-            uploadMultipleImage: function () {
-                let $that = $(this);
-                var type = $that.data('type') || 'png,jpg,gif', name = $that.attr('name') || 'umt-image';
-                var $tpl = $('<a class="uploadimage"></a>').attr('data-file', 'mul').attr('data-field', name).attr('data-type', type);
+            my.http.get({
+                url: '/plugin/upload/getOss',
+                loading: false,
+                done: function (res) {
+                    let {accessKeyId, dir, host, maxSize, policy, signature} = res.data;
 
-                console.log($that);
-                $that.attr('name', name).after($tpl.data('input', this)).on('change', function () {
-                    console.log('uploadMultipleImage change');
-                    var input = this;
-                    this.setImageData = function () {
-                        input.value = input.getImageData().join('|');
-                    };
-                    this.getImageData = function () {
-                        var values = [];
-                        $(input).prevAll('.uploadimage').map(function () {
-                            values.push($that.attr('data-tips-image'));
-                        });
-                        return values.reverse(), values;
-                    };
-                    var urls = this.getImageData(), srcs = this.value.split('|');
-                    for (var i in srcs) if (srcs[i]) urls.push(srcs[i]);
-                    $that.prevAll('.uploadimage').remove();
-                    this.value = urls.join('|');
-                    for (var i in urls) {
-                        var tpl = '<div class="uploadimage uploadimagemtl"><a class="layui-icon margin-right-5">&#xe602;</a><a class="layui-icon margin-right-5">&#x1006;</a><a class="layui-icon margin-right-5">&#xe603;</a></div>';
-                        var $tpl = $(tpl).attr('data-tips-image', urls[i]).css('backgroundImage', 'url(' + urls[i] + ')').on('click', 'a', function (e) {
-                            e.stopPropagation();
-                            var $cur = $(this).parent();
-                            console.log($cur);
-                            switch ($(this).index()) {
-                                case 1:// remove
-                                    return my.confirm('确定要移除这张图片吗？', function (index) {
-                                        $cur.remove(), input.setImageData(), my.close(index);
-                                    });
-                                case 0: // right
-                                    var lenght = $cur.siblings('div.uploadimagemtl').length;
-                                    if ($cur.index() !== lenght) $cur.next().after($cur);
-                                    return input.setImageData();
-                                case 2: // left
-                                    if ($cur.index() !== 0) $cur.prev().before($cur);
-                                    return input.setImageData();
-                            }
-                        });
-                        $(this).before($tpl);
-                    }
-                }).trigger('change');
-            }
-        });
-
+                    upload.render({
+                        elm: that,
+                        host: host,
+                        layerTitle: '上传数据文件',
+                        accessId: accessKeyId,
+                        policy: policy,
+                        signature: signature,
+                        prefixPath: dir,
+                        maxSize: maxSize,
+                        fileType: 'images',
+                        multiple: false,
+                        allUploaded: function (res) {
+                            console.log(res);
+                            // avatarSrc.val(res.ossUrl);
+                            // avatarPreview.attr('hyperf-preview', res.ossUrl);
+                        }
+                    });
+                }
+            });
+        };
 
         exports('hyperf', my);
     }
