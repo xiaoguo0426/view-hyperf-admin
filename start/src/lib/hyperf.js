@@ -1,16 +1,30 @@
-layui.config({
-    base: '/js/' //你存放新模块的目录，注意，不是layui的模块目录
-}).extend({
-    aliossUploader: 'aliossUploader'
-}).define(['view', 'table', 'aliossUploader'], function (exports) {
+layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
 
         let $ = layui.jquery,
             view = layui.view,
             setter = layui.setter,
             laytpl = layui.laytpl,
             LAY_BODY = 'LAY_app_body',
-            upload = layui.aliossUploader,
+            // upload = layui.aliossUploader,
+            sentry = layui.sentry,
             table = layui.table;
+
+        let obj = function () {
+            this.a = true;
+            this.b = {
+                aaa: this.a
+            };
+        };
+
+        console.log(new obj());
+
+        console.log(obj);
+        sentry.init(setter.sentry);
+
+        sentry.configureScope(function (scope) {
+            scope.setExtra("user_id", "10086");
+            scope.setExtra("phone", "13800138000");
+        });
 
         function empty(str) {
             return (typeof str === "undefined" || str == null || str === "");
@@ -104,7 +118,8 @@ layui.config({
                         ;
                         options.data = options.data || {};
                         options.headers = options.headers || {};
-                        options.url = setter.api + options.url;
+                        let path = options.url;
+                        options.url = setter.api + path;
 
                         if (request.tokenName) {
                             let sendData = typeof options.data === 'string'
@@ -135,6 +150,11 @@ layui.config({
                                     typeof options.done === 'function' && options.done(res);
                                 } else if (res[response.statusName] == statusCode.no) {
                                     typeof error === 'function' && error(res);
+                                    sentry.configureScope(function (scope) {
+                                        scope.setFingerprint([options.type, path, statusCode.no]);
+                                        scope.setExtra("options", options);
+                                    });
+                                    sentry.captureMessage(JSON.stringify(res));
                                 }
                                 //登录状态失效，清除本地 access_token，并强制跳转到登入页
                                 else if (res[response.statusName] == statusCode.logout) {
@@ -151,6 +171,14 @@ layui.config({
                                 //http异常回调
                                 hyperf.msg.error('网络请求异常' + code);
                                 setter.debug && console.error("Error: %s (%i) URL:%s", e.statusText, e.status, options.url);
+
+                                sentry.configureScope(function (scope) {
+                                    scope.setFingerprint([options.type, path, code]);
+                                    scope.setLevel('error');
+                                    scope.setExtra("options", options);
+                                    scope.setExtra("code", code);
+                                });
+                                sentry.captureMessage(JSON.stringify(e));
                             }, complete: function (XHR) {
                                 index && layer.close(index);
                             }
@@ -418,6 +446,12 @@ layui.config({
                         // that.render('template/tips/error');
                     }
 
+                    sentry.configureScope(function (scope) {
+                        // scope.setFingerprint([options.type, path, code]);
+                        scope.setLevel('error');
+                    });
+                    sentry.captureMessage(views + '模板不存在');
+
                     that.render.isError = true;
                 }
             });
@@ -443,7 +477,15 @@ layui.config({
                 try {
                     options.done && new Function('d', options.done)(res);
                 } catch (e) {
-                    console.error(options.dataElem[0], '\n存在错误回调脚本\n\n', e)
+                    console.error(options.dataElem[0], '\n存在错误回调脚本\n\n', e);
+
+                    sentry.configureScope(function (scope) {
+                        // scope.setFingerprint([options.type, path, code]);
+                        scope.setLevel('error');
+                        scope.setExtra("options", options);
+                        scope.setExtra("router", router);
+                    });
+                    sentry.captureMessage(router + '存在错误回调脚本');
                 }
             }
                 , router = layui.router();
@@ -640,32 +682,34 @@ layui.config({
             let that = this;
 
             let self =
-            $(this).attr('name', name).after($tpl.data('input', this)).on('change', function () {
-                if (this.value) $tpl.css('backgroundImage', 'url(' + this.value + ')');
-            }).trigger('change');
+                $(this).attr('name', name).after($tpl.data('input', this)).on('change', function () {
+                    if (this.value) $tpl.css('backgroundImage', 'url(' + this.value + ')');
+                }).trigger('change');
 
             my.http.get({
                 url: '/plugin/upload/getOss',
                 loading: false,
                 done: function (res) {
                     let {accessKeyId, dir, host, maxSize, policy, signature} = res.data;
-
-                    upload.render({
-                        elm: that,
-                        host: host,
-                        layerTitle: '上传数据文件',
-                        accessId: accessKeyId,
-                        policy: policy,
-                        signature: signature,
-                        prefixPath: dir,
-                        maxSize: maxSize,
-                        fileType: 'images',
-                        multiple: false,
-                        allUploaded: function (res) {
-                            console.log(res);
-                            // avatarSrc.val(res.ossUrl);
-                            // avatarPreview.attr('hyperf-preview', res.ossUrl);
-                        }
+                    layui.use('aliossUploader', function () {
+                        let upload = layui.aliossUploader;
+                        upload.render({
+                            elm: that,
+                            host: host,
+                            layerTitle: '上传数据文件',
+                            accessId: accessKeyId,
+                            policy: policy,
+                            signature: signature,
+                            prefixPath: dir,
+                            maxSize: maxSize,
+                            fileType: 'images',
+                            multiple: false,
+                            allUploaded: function (res) {
+                                console.log(res);
+                                // avatarSrc.val(res.ossUrl);
+                                // avatarPreview.attr('hyperf-preview', res.ossUrl);
+                            }
+                        });
                     });
                 }
             });

@@ -91,6 +91,11 @@
           "name": "product",
           "title": "商品管理",
           "jump": "product/product/product"
+        },
+        {
+          "name": "product",
+          "title": "商品管理",
+          "jump": "product/product/products"
         }
       ]
     },

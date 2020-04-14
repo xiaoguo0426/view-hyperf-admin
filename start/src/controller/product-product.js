@@ -95,8 +95,8 @@ layui.define(['form'], function (exports) {
         events[event] && events[event].call(this, $this);
     });
 
-    $('[name=logo]').uploadOneImage(function () {
-        console.log(23)
-    });
+    // $('[name=logo]').uploadOneImage(function () {
+    //     console.log(23)
+    // });
     exports('product-product', {})
 });

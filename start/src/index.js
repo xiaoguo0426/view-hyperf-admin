@@ -12,22 +12,30 @@ layui.extend({
     , admin: 'lib/admin' //核心模块
     , view: 'lib/view' //核心模块
     , hyperf: 'lib/hyperf' //hyperf系统模块
+    // , sentry: 'lib/extend/sentry'
 }).define(['setter', 'admin', 'hyperf'], function (exports) {
+
+    // console.log(layui.sentry);
+
     let $ = layui.$;
+        // Sentry = layui.sentry;
+    //
+    // Sentry.init({ dsn: 'http://9e3d7d70cfe048ee915a6ab02ee50464@sentry.laradock.test/3' });
+    //
+    // Sentry.captureException(new Error("Something broke"));
 
     let setter = layui.setter
         , element = layui.element
         , admin = layui.admin
         , tabsPage = admin.tabsPage
         , view = layui.view
-        , upload = layui.aliossUploader
         , hyperf = layui.hyperf
 
         //根据路由渲染页面
         , renderPage = function () {
             var router = layui.router()
                 , path = router.path
-                , pathURL = admin.correctRouter(router.path.join('/'))
+                , pathURL = admin.correctRouter(router.path.join('/'));
 
 
             //默认读取主页
@@ -208,15 +216,17 @@ layui.extend({
         layui.event.call(this, setter.MOD_NAME, 'hash({*})', layui.router());
     };
 
-    //扩展 lib 目录下的其它模块
-    layui.each(setter.extend, function (index, item) {
-        var mods = {};
-        mods[item] = '{/}' + setter.base + 'lib/extend/' + item;
-        layui.extend(mods);
-    });
+    //move to config.js update by xiaoguo 2020-04-13
+    // //扩展 lib 目录下的其它模块
+    // layui.each(setter.extend, function (index, item) {
+    //     var mods = {};
+    //     mods[item] = '{/}' + setter.base + 'lib/extend/' + item;
+    //     layui.extend(mods);
+    // });
 
     //对外输出
     exports('index', {
         render: renderPage
     });
+
 });
