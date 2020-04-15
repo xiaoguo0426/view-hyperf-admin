@@ -115,6 +115,7 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
                             , error = options.error
                             , request = setter.request
                             , response = setter.response
+                            , retries = retriesClone = request.retries
                         ;
                         options.data = options.data || {};
                         options.headers = options.headers || {};
@@ -137,8 +138,9 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
 
                         let index = options.loading !== false && hyperf.loading();
 
-                        return $.ajax($.extend({
+                        let json = $.extend({
                             type: 'GET'
+                            , timeout: 5000
                             , dataType: 'json'
                             , crossDomain: true
                             , success: function (res) {
@@ -182,7 +184,10 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
                             }, complete: function (XHR) {
                                 index && layer.close(index);
                             }
-                        }, options));
+                        } else {
+                            return $.ajax(json);
+                        }
+
                     },
                     post: function (options) {
                         this.request($.extend({
