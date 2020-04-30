@@ -128,9 +128,10 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
                                 : options.data;
 
                             //自动给 Request Headers 传入 token
+                            let layuiData = layui.data(setter.tableName);
                             options.headers[request.tokenName] = request.tokenName in options.headers
                                 ? options.headers[request.tokenName]
-                                : (layui.data(setter.tableName)[request.tokenName] || '');
+                                : (layuiData ? layuiData[request.tokenName] || '' : '');
                         }
 
                         delete options.success;
@@ -138,9 +139,8 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
 
                         let index = options.loading !== false && hyperf.loading();
 
-                        let json = $.extend({
+                        return $.ajax($.extend({
                             type: 'GET'
-                            , timeout: 5000
                             , dataType: 'json'
                             , crossDomain: true
                             , success: function (res) {
@@ -184,9 +184,7 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
                             }, complete: function (XHR) {
                                 index && layer.close(index);
                             }
-                        } else {
-                            return $.ajax(json);
-                        }
+                        }, options));
 
                     },
                     post: function (options) {
