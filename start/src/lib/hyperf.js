@@ -98,6 +98,18 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
                     }, options), callback);
                 };
 
+                this.open = function (content, success, options) {
+                    return layer.open($.extend({
+                        content: content || '请填写提示的内容',
+                        title: '提示',
+                        fixed: false,
+                        move: false,
+                        success: function (layero, index) {
+                            'function' === typeof success && success(layero, index);
+                        }
+                    }, options));
+                }
+
                 this.loading = function () {
                     return layer.load(3, {
                         shade: [0.1, '#fff'] //0.1透明度的白色背景
@@ -147,24 +159,28 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
                                 //http请求成功回调
                                 let statusCode = response.statusCode;
                                 //只有 response 的 code 一切正常才执行 done
-
+console.log(res[response.statusName]);
                                 if (res[response.statusName] == statusCode.ok) {
                                     typeof options.done === 'function' && options.done(res);
                                 } else if (res[response.statusName] == statusCode.no) {
-                                    typeof error === 'function' && error(res);
                                     sentry.configureScope(function (scope) {
                                         scope.setFingerprint([options.type, path, statusCode.no]);
                                         scope.setExtra("options", options);
                                     });
                                     sentry.captureMessage(JSON.stringify(res));
+
+                                    typeof error === 'function' && error(res);
+
+                                    return false;
                                 }
                                 //登录状态失效，清除本地 access_token，并强制跳转到登入页
                                 else if (res[response.statusName] == statusCode.logout) {
                                     view.exit();
-                                }
-                                //其它异常
-                                else {
-                                    hyperf.msg.error(res.message);//res.code > 0  一般为逻辑性错误
+                                }else {
+                                    console.log(res[response.msgName]);
+                                    console.log(123123123);
+                                    hyperf.msg.error(res.msg);//res.code > 0  一般为逻辑性错误
+                                    return false;
                                 }
                                 //只要 http 状态码正常，无论 response 的 code 是否正常都执行 success
                                 typeof success === 'function' && success(res);
@@ -354,10 +370,10 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
                             return false;
                         }
 
-                        let success = options.success;
+                        let done = options.done;
                         let d = options.data;
 
-                        delete options.success;
+                        delete options.done;
 
                         return hyperf.popup($.extend({
                             title: '弹窗'
@@ -369,8 +385,8 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
                                     hyperf.http.get({
                                         url: options.url,
                                         data: d,
-                                        success: function (res) {
-                                            typeof success === 'function' && success.apply(this, arguments);
+                                        done: function (res) {
+                                            typeof done === 'function' && done.apply(this, arguments);
                                         }
                                     });
                                 });

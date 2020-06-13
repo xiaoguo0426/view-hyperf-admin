@@ -16,8 +16,8 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             this.entry = 'index'; //默认视图文件名
             this.engine = '.html'; //视图文件后缀名
             this.pageTabs = false; //是否开启页面选项卡功能。单页版不推荐开启
-            this.domain = '//admin.hyperf.test';
-            this.api = '//api.hyperf.test';
+            this.domain = '//admin.hyperf.site';
+            this.api = '//api.hyperf.site';
             this.site = '';
             this.desc = '';//站点描述
             this.keywords = '';//seo关键字
@@ -26,9 +26,9 @@ layui.define(['laytpl', 'layer', 'element', 'util'], function (exports) {
             this.MOD_NAME = 'admin';//模块事件名
             this.debug = true;//是否开启调试模式
             this.sentry = {
-                dsn: 'http://9e3d7d70cfe048ee915a6ab02ee50464@sentry.laradock.test/3',
-                debug: this.debug,
-                environment: this.debug ? 'dev' : 'prod'
+                // dsn: 'http://9e3d7d70cfe048ee915a6ab02ee50464@sentry.laradock.test/3',
+                // debug: this.debug,
+                // environment: this.debug ? 'dev' : 'prod'
             };
             this.interceptor = true;//是否开启未登入拦截
             //自定义请求字段

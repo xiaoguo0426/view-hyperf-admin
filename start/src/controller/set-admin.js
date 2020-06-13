@@ -71,7 +71,10 @@ layui.define(['table', 'form'], function (exports) {
                 url: '/admin/user/info',
                 title: id ? '编辑管理员' : '添加管理员',
                 view: 'set/admin/admin-form',
-                success: function (res) {
+                done: function (res) {
+                    console.log(res);
+
+                    return false;
                     let data = res.data,
                         adminFormTpl = document.getElementById('admin-form-tpl'),
 
@@ -131,6 +134,9 @@ layui.define(['table', 'form'], function (exports) {
                             }
                         });
                     });
+                },
+                error:function (res) {
+                    console.log(123123);
                 }
             });
         }
