@@ -86,6 +86,23 @@ layui.define(['form', 'authtree'], function (exports) {
                     });
                 }
             });
+        },
+        prompt: function (that) {
+            hyperf.prompt('标题', function (value) {
+                hyperf.http.post({
+                    url: '',
+                    data: {
+                        id: '10086',
+                        desc: value
+                    },
+                    done:function (res) {
+
+                    }
+                });
+            }, {
+                placeholder: '请输入原因。长度50',
+                maxlength: 50
+            });
         }
     };
 

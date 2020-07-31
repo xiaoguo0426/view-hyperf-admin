@@ -3,7 +3,7 @@
 <div class="layui-card layadmin-header">
     <div class="layui-breadcrumb" lay-filter="breadcrumb">
         <a lay-href="">主页</a>
-        <a><cite>用户</cite></a>
+        <a><cite>管理员</cite></a>
         <a><cite>角色管理</cite></a>
     </div>
 </div>
@@ -12,16 +12,7 @@
     <div class="layui-card">
         <div class="layui-form layui-card-header layuiadmin-card-header-auto"
              lay-filter="layadmin-useradminrole-formlist">
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    角色筛选
-                </div>
-                <div class="layui-inline">
-                    <select name="rolename" lay-filter="LAY-user-adminrole-type">
-                        <option value="-1">全部角色</option>
-                    </select>
-                </div>
-            </div>
+
         </div>
         <div class="layui-card-body">
             <div style="padding-bottom: 10px;">
@@ -31,6 +22,7 @@
                 <button class="layui-btn layuiadmin-btn-role" hyperf-refresh>刷新页面</button>
                 <button class="layui-btn layuiadmin-btn-role" hyperf-back>后退</button>
                 <button class="layui-btn layuiadmin-btn-role" hyperf-forward>前进</button>
+                <button class="layui-btn layuiadmin-btn-role" lay-event="prompt">输入层</button>
             </div>
 
             <table id="LAY-user-role-list" lay-filter="LAY-user-role-list"></table>

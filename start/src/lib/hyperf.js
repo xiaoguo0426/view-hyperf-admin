@@ -9,16 +9,6 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
             sentry = layui.sentry,
             table = layui.table;
 
-        let obj = function () {
-            this.a = true;
-            this.b = {
-                aaa: this.a
-            };
-        };
-
-        console.log(new obj());
-
-        console.log(obj);
         sentry.init(setter.sentry);
 
         sentry.configureScope(function (scope) {
@@ -116,6 +106,22 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
                     });
                 };
 
+                this.prompt = function (title, success, options) {
+                    let that = this;
+                    return layer.prompt($.extend({
+                            formType: 2,
+                            value: '',
+                            title: title || '请输入标题',
+                            placeholder: '',
+                            maxlength: 100,
+                            area: ['250px', '150px'], //自定义文本域宽高
+                        }, options),
+                        function (value, index, elem) {
+                            typeof success === 'function' && success.call(that, ...arguments);
+                        }
+                    );
+                };
+
                 this.close = function (index) {
                     return layer.close(index);
                 };
@@ -159,7 +165,6 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
                                 //http请求成功回调
                                 let statusCode = response.statusCode;
                                 //只有 response 的 code 一切正常才执行 done
-console.log(res[response.statusName]);
                                 if (res[response.statusName] == statusCode.ok) {
                                     typeof options.done === 'function' && options.done(res);
                                 } else if (res[response.statusName] == statusCode.no) {
@@ -176,9 +181,7 @@ console.log(res[response.statusName]);
                                 //登录状态失效，清除本地 access_token，并强制跳转到登入页
                                 else if (res[response.statusName] == statusCode.logout) {
                                     view.exit();
-                                }else {
-                                    console.log(res[response.msgName]);
-                                    console.log(123123123);
+                                } else {
                                     hyperf.msg.error(res.msg);//res.code > 0  一般为逻辑性错误
                                     return false;
                                 }
@@ -226,7 +229,7 @@ console.log(res[response.statusName]);
 
                         let form = obj.form;
                         if (empty(form)) {
-                            console.log('请设置form属性');
+                            console.error('请设置form属性');
                             return false;
                         }
 
@@ -237,7 +240,7 @@ console.log(res[response.statusName]);
                             action = empty(a) ? '' : (empty(empty(a.nodeValue)) ? '' : a.nodeValue);
 
                         if (empty(action)) {
-                            console.log('请填写form的action属性');
+                            console.error('请填写form的action属性');
                             return false;
                         }
 
@@ -315,7 +318,6 @@ console.log(res[response.statusName]);
                 this.popup = function (options) {
                     let success = options.success
                         , skin = options.skin;
-
                     delete options.success;
                     delete options.skin;
 
@@ -370,10 +372,10 @@ console.log(res[response.statusName]);
                             return false;
                         }
 
-                        let done = options.done;
+                        let success = options.success;
                         let d = options.data;
 
-                        delete options.done;
+                        delete options.success;
 
                         return hyperf.popup($.extend({
                             title: '弹窗'
@@ -386,7 +388,7 @@ console.log(res[response.statusName]);
                                         url: options.url,
                                         data: d,
                                         done: function (res) {
-                                            typeof done === 'function' && done.apply(this, arguments);
+                                            typeof success === 'function' && success.apply(this, arguments);
                                         }
                                     });
                                 });
@@ -480,12 +482,12 @@ console.log(res[response.statusName]);
         //解析模板
         Class.prototype.parse = function (html, refresh, callback) {
 
-            var that = this
+            let that = this
                 , isScriptTpl = typeof html === 'object' //是否模板元素
                 , elem = isScriptTpl ? html : $(html)
                 , elemTemp = isScriptTpl ? html : elem.find('*[template]')
                 , fn = function (options) {
-                var tpl = laytpl(options.dataElem.html())
+                let tpl = laytpl(options.dataElem.html())
                     , res = $.extend({
                     params: router.params
                 }, options.res);
@@ -515,9 +517,9 @@ console.log(res[response.statusName]);
             router.params = that.params || {};
 
             //遍历模板区块
-            for (var i = elemTemp.length; i > 0; i--) {
+            for (let i = elemTemp.length; i > 0; i--) {
                 (function () {
-                    var dataElem = elemTemp.eq(i - 1)
+                    let dataElem = elemTemp.eq(i - 1)
                         , layDone = dataElem.attr('lay-done') || dataElem.attr('lay-then') //获取回调
                         , url = laytpl(dataElem.attr('lay-url') || '').render(router) //接口 url
                         , data = laytpl(dataElem.attr('lay-data') || '').render(router) //接口参数
@@ -526,15 +528,14 @@ console.log(res[response.statusName]);
                     try {
                         data = new Function('return ' + data + ';')();
                     } catch (e) {
-                        hint.error('lay-data: ' + e.message);
+                        console.error('lay-data: ' + e.message);
                         data = {};
                     }
-                    ;
 
                     try {
                         headers = new Function('return ' + headers + ';')();
                     } catch (e) {
-                        hint.error('lay-headers: ' + e.message);
+                        console.error('lay-headers: ' + e.message);
                         headers = headers || {}
                     }
 
@@ -572,14 +573,14 @@ console.log(res[response.statusName]);
 
         //直接渲染字符
         Class.prototype.send = function (views, data) {
-            var tpl = laytpl(views || this.container.html()).render(data || {});
+            let tpl = laytpl(views || this.container.html()).render(data || {});
             this.container.html(tpl);
             return this;
         };
 
         //局部刷新模板
         Class.prototype.refresh = function (callback) {
-            var that = this
+            let that = this
                 , next = that.container.next()
                 , templateid = next.attr('lay-templateid');
 

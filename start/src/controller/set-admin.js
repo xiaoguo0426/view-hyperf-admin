@@ -1,7 +1,8 @@
-layui.define(['table', 'form'], function (exports) {
+layui.define(['table', 'form', 'aliossUploader'], function (exports) {
     let $ = layui.$
         , form = layui.form
         , laytpl = layui.laytpl
+        , upload = layui.aliossUploader
         , hyperf = layui.hyperf;
 
     //管理员管理
@@ -71,10 +72,8 @@ layui.define(['table', 'form'], function (exports) {
                 url: '/admin/user/info',
                 title: id ? '编辑管理员' : '添加管理员',
                 view: 'set/admin/admin-form',
-                done: function (res) {
-                    console.log(res);
+                success: function (res) {
 
-                    return false;
                     let data = res.data,
                         adminFormTpl = document.getElementById('admin-form-tpl'),
 
@@ -134,8 +133,34 @@ layui.define(['table', 'form'], function (exports) {
                             }
                         });
                     });
+
+                    let avatarSrc = $('input[name="avatar"]'),
+                        avatarPreview = $('img#LAY_avatarUpload');
+                    hyperf.http.get({
+                        url: '/plugin/upload/getOss',
+                        done: function (res) {
+                            let {accessKeyId, dir, host, maxSize, policy, signature} = res.data;
+
+                            upload.render({
+                                elm: '#LAY_avatarUpload',
+                                host: host,
+                                layerTitle: '上传数据文件',
+                                accessId: accessKeyId,
+                                policy: policy,
+                                signature: signature,
+                                prefixPath: dir,
+                                maxSize: maxSize,
+                                fileType: 'images',
+                                multiple: false,
+                                allUploaded: function (res) {
+                                    avatarSrc.val(res.ossUrl);
+                                    avatarPreview.attr('src', res.ossUrl);
+                                }
+                            });
+                        }
+                    });
                 },
-                error:function (res) {
+                error: function (res) {
                     console.log(123123);
                 }
             });

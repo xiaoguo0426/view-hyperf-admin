@@ -1,4 +1,4 @@
-layui.define(['form', 'upload'], function (exports) {
+layui.define(['form', 'upload', 'aliossUploader'], function (exports) {
 
     let $ = layui.$
         , layer = layui.layer
@@ -6,7 +6,7 @@ layui.define(['form', 'upload'], function (exports) {
         , form = layui.form
         , element = layui.element
         // , upload = layui.upload
-        // , upload = layui.aliossUploader
+        , upload = layui.aliossUploader
         , hyperf = layui.hyperf;
 
     let $body = $('body'),
@@ -32,6 +32,8 @@ layui.define(['form', 'upload'], function (exports) {
                 v: data.role_id,
                 roles: data.roles
             };
+            console.log(data);
+            console.log(d);
             //渲染select
             laytpl(rolesTemplate.innerHTML).render(d, function (html) {
                 rolesObj.innerHTML = html;
@@ -53,23 +55,23 @@ layui.define(['form', 'upload'], function (exports) {
                 done: function (res) {
                     let {accessKeyId, dir, host, maxSize, policy, signature} = res.data;
 
-                    // upload.render({
-                    //     elm: '#LAY_avatarUpload',
-                    //     host: host,
-                    //     layerTitle: '上传数据文件',
-                    //     accessId: accessKeyId,
-                    //     policy: policy,
-                    //     signature: signature,
-                    //     prefixPath: dir,
-                    //     maxSize: maxSize,
-                    //     fileType: 'images',
-                    //     multiple: false,
-                    //     allUploaded: function (res) {
-                    //         console.log(res);
-                    //         avatarSrc.val(res.ossUrl);
-                    //         avatarPreview.attr('hyperf-preview', res.ossUrl);
-                    //     }
-                    // });
+                    upload.render({
+                        elm: '#LAY_avatarUpload',
+                        host: host,
+                        layerTitle: '上传数据文件',
+                        accessId: accessKeyId,
+                        policy: policy,
+                        signature: signature,
+                        prefixPath: dir,
+                        maxSize: maxSize,
+                        fileType: 'images',
+                        multiple: false,
+                        allUploaded: function (res) {
+                            console.log(res);
+                            avatarSrc.val(res.ossUrl);
+                            avatarPreview.attr('hyperf-preview', res.ossUrl);
+                        }
+                    });
                 }
             });
         }
