@@ -302,12 +302,13 @@ layui.define(['view', 'table', 'aliossUploader', 'sentry'], function (exports) {
                         options.url = setter.api + options.url;
                         headers[request.tokenName] = (layui.data(setter.tableName)[request.tokenName] || '');
 
-                        return $.extend(options, {
+                        return $.extend({
                             headers: headers,
                             text: {
                                 none: '暂无相关数据'
-                            }
-                        });
+                            },
+                            page: true
+                        }, options);
                     }
                 };
                 /**
