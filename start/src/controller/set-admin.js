@@ -48,8 +48,7 @@ layui.define(['table', 'form', 'aliossUploader'], function (exports) {
     hyperf.http.get({
         url: '/auth/list',
         data: {
-            page: 0,
-            limit: 0
+            page: 1
         },
         loading: false,//关闭loading效果
         done: function (res) {
